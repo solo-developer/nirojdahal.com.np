@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Niroj Dahal- Full Stack Developer</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DevCard Bootstrap 5 Template">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <!-- FontAwesome JS -->
+    <script defer src="~/fontawesome/js/all.js"></script>
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="~/plugins/tiny-slider/tiny-slider.css">
+
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="~/css/theme-1.css">
+
+</head>
+
+<body>
+
+    <header class="header text-center">
+        <div class="force-overflow">
+            <h1 class="blog-name pt-lg-4 mb-0"><a class="no-text-decoration" href="/">Niroj Dahal</a></h1>
+
+            <nav class="navbar navbar-expand-lg navbar-dark">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div id="navigation" class="collapse navbar-collapse flex-column">
+                    <div class="profile-section pt-3 pt-lg-0">
+                        <img class="profile-image mb-3 rounded-circle mx-auto" src="~/images/my-image.jpg" alt="image">
+
+                        <div class="bio mb-3">Hi, my name is Niroj Dahal and I'm a senior software engineer. Welcome to my personal website!</div><!--//bio-->
+                        <ul class="social-list list-inline py-2 mx-auto">
+                            <li class="list-inline-item"><a href="https://twitter.com/NirojDahal14"><i class="fab fa-twitter fa-fw"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.linkedin.com/in/niroj-dahal-1bb3b4172/"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.facebook.com/developer.niroj/"><i class="fab fa-facebook fa-fw"></i></a></li>
+                            <li class="list-inline-item"><a href="https://github.com/solo-developer/"><i class="fab fa-github-alt fa-fw"></i></a></li>
+                            <li class="list-inline-item"><a href="https://dev.to/kingleo10"><i class="fab fa-dev fa-fw"></i></a></li>
+
+                        </ul><!--//social-list-->
+                        <hr>
+                    </div><!--//profile-section-->
+
+                    <ul class="navbar-nav flex-column text-start">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html"><i class="fas fa-user fa-fw me-2"></i>About Me<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="portfolio.html"><i class="fas fa-laptop-code fa-fw me-2"></i>Portfolio</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="resume.html"><i class="fas fa-file-alt fa-fw me-2"></i>Resume</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="blog-home.html"><i class="fas fa-blog fa-fw me-2"></i>Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="blog-home.html"><i class="fas fa-blog fa-fw me-2"></i>My Works</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html"><i class="fas fa-envelope-open-text fa-fw me-2"></i>Contact</a>
+                        </li>
+
+                    </ul>
+
+
+                </div>
+            </nav>
+        </div><!--//force-overflow-->
+    </header>
+
+    <div class="main-wrapper">
+        @RenderBody()
+
+        <footer class="footer text-center py-4">
+            <small class="copyright">Copyright &copy;Niroj Dahal</small>
+        </footer>
+
+    </div><!--//main-wrapper-->
+    <!-- Javascript -->
+    <script src="~/plugins/popper.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="~/plugins/tiny-slider/min/tiny-slider.js"></script>
+    <script src="~/js/testimonials.js"></script>
+
+    <!-- Dark Mode -->
+    <script src="~/plugins/js-cookie.min.js"></script>
+    <script src="~/js/dark-mode.js"></script>
+
+</body>
+</html>
+
