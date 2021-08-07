@@ -204,29 +204,42 @@
         <h2 class="section-title font-weight-bold mb-5">Contact</h2>
 
         <div class="container">
-            <form id="contact-form" class="contact-form col-lg-8 mx-lg-auto" method="post" action="contact.html">
+            @using (Html.BeginForm("send-message", "contact", FormMethod.Post, new { id = "contact-form", @Class = "contact-form col-lg-8 mx-lg-auto" }))
+            {
+                @Html.AntiForgeryToken()
                 <h3 class="text-center mb-3">Please fill the form below.</h3>
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
                         <label class="sr-only" for="cname">Name</label>
-                        <input type="text" class="form-control" id="cname" name="name" placeholder="Name" minlength="2" required="" aria-required="true">
+                        <input type="text" class="form-control Name" id="cname" name="name" placeholder="Name" minlength="2" required="" aria-required="true">
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="sr-only" for="cemail">Email</label>
-                        <input type="email" class="form-control" id="cemail" name="email" placeholder="Email" required="" aria-required="true">
+                        <input type="email" class="form-control Email" id="cemail" name="email" placeholder="Email" required="" aria-required="true">
                     </div>
                     <div class="col-12">
                         <label class="sr-only" for="cmessage">Your message</label>
-                        <textarea class="form-control" id="cmessage" name="message" placeholder="Enter your message" rows="10" required="" aria-required="true"></textarea>
+                        <textarea class="form-control Comment" id="cmessage" name="message" placeholder="Enter your message" rows="10" required="" aria-required="true"></textarea>
+                    </div>
+                    <div class="col-12">
+
+                        <recaptcha data-callback="validateCaptcha"></recaptcha>
                     </div>
                     <div class="form-group col-12">
                         <button type="submit" class="btn btn-block btn-primary py-2">Send Now</button>
+                         <div id="msgSubmit" class="h3 text-center hidden mt-20"></div>
+                        <div class="clearfix"></div>
                     </div>
-                </div><!--//form-row-->
-            </form>
-        </div><!--//container-->
-
+                </div>
+            }
+        </div>
     </div>
+</section>
+
+@section scripts{
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js" integrity="sha512-DedNBWPF0hLGUPNbCYfj8qjlEnNE92Fqn7xd3Sscfu7ipy7Zu33unHdugqRD3c4Vj7/yLv+slqZhMls/4Oc7Zg==" crossorigin="anonymous"></script>
 
 
-</section>>
+<recaptcha-script />
+}
