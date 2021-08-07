@@ -1,4 +1,8 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    $('#navigation').on('click', '.nav-item', setSidebarLinksActiveBasedOnLinksClicked);
+});
 
-// Write your JavaScript code.
+function setSidebarLinksActiveBasedOnLinksClicked() {
+    $('#navigation').find('.nav-link').removeClass('active');
+    $(this).find('.nav-link').addClass('active');
+}
