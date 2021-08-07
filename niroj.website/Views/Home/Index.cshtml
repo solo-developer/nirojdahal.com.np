@@ -1,4 +1,11 @@
-﻿<section class="about-me-section p-3 p-lg-5 theme-bg-light" id="about-me">
+﻿@{
+    var startDate = new System.DateTime(2016, 01, 01);
+    var yearsOfWorking = DateTime.Now.Year - startDate.Year;
+    if (startDate > DateTime.Now.AddYears(-yearsOfWorking))
+        yearsOfWorking--;
+}
+
+<section class="about-me-section p-3 p-lg-5 theme-bg-light" id="about-me">
     <div class="container">
         <div class="profile-teaser row">
 
@@ -14,16 +21,16 @@
             </div><!--//col-->
 
             <div class="col-md-5 col-lg-5">
-               @* <img class="profile-image img-fluid mb-3 mb-lg-0 me-md-0" src="~/images/profile-lg.jpg" alt="">*@
+                @* <img class="profile-image img-fluid mb-3 mb-lg-0 me-md-0" src="~/images/profile-lg.jpg" alt="">*@
             </div>
         </div>
     </div>
 </section><!--//about-me-section-->
 
-<section class="overview-section p-3 p-lg-5">
+<section class="overview-section p-3 p-lg-5" id="portfolio">
     <div class="container">
         <h2 class="section-title font-weight-bold mb-3">What I do</h2>
-        <div class="section-intro mb-5">I have more than  6 years' experience building software. Below is a quick overview of my main technical skill sets and technologies I use. Want to find out more about my experience? Check out my <a class="text-link" href="/attachment/resume">resume</a>.</div>
+        <div class="section-intro mb-5">I have more than  @yearsOfWorking years' experience building software. Below is a quick overview of my main technical skill sets and technologies I use. Want to find out more about my experience? Check out my <a class="text-link" href="/attachment/resume">resume</a>.</div>
         <div class="row">
             <div class="item col-6 col-lg-3">
                 <div class="item-inner">
@@ -129,50 +136,97 @@
 <section class="latest-blog-section p-3 p-lg-5" id="blogs">
     <div class="container">
         <h2 class="section-title font-weight-bold mb-5">Latest Blog Posts</h2>
-        <div class="row">
-            <div class="col-md-4 mb-5">
-                <div class="card blog-post-card">
-                    <img class="card-img-top" src="~/images/blog/blog-post-thumb-card-1.jpg" alt="image">
-                    <div class="card-body">
-                        <h5 class="card-title"><a class="theme-link" href="blog-post.html">Top 3 JavaScript Frameworks</a></h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
-                        <p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
 
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Published 2 days ago</small>
-                    </div>
-                </div><!--//card-->
+        <div class="theme-bg-light">
+            <h3 style="height:200px;text-align:center;line-height:200px;vertical-align:middle">Blog coming soon....</h3>
+        </div>
+        @*  <div class="row">
+            <div class="col-md-4 mb-5">
+            <div class="card blog-post-card">
+            <img class="card-img-top" src="~/images/blog/blog-post-thumb-card-1.jpg" alt="image">
+            <div class="card-body">
+            <h5 class="card-title"><a class="theme-link" href="blog-post.html">Top 3 JavaScript Frameworks</a></h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
+            <p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
+
+            </div>
+            <div class="card-footer">
+            <small class="text-muted">Published 2 days ago</small>
+            </div>
+            </div><!--//card-->
             </div><!--//col-->
             <div class="col-md-4 mb-5">
-                <div class="card blog-post-card">
-                    <img class="card-img-top" src="~/images/blog/blog-post-thumb-card-2.jpg" alt="image">
-                    <div class="card-body">
-                        <h5 class="card-title"><a class="theme-link" href="blog-post.html">About Remote Working</a></h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
-                        <p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Published a week ago</small>
+            <div class="card blog-post-card">
+            <img class="card-img-top" src="~/images/blog/blog-post-thumb-card-2.jpg" alt="image">
+            <div class="card-body">
+            <h5 class="card-title"><a class="theme-link" href="blog-post.html">About Remote Working</a></h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
+            <p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
+            </div>
+            <div class="card-footer">
+            <small class="text-muted">Published a week ago</small>
 
-                    </div>
-                </div><!--//card-->
+            </div>
+            </div><!--//card-->
             </div><!--//col-->
             <div class="col-md-4 mb-5">
-                <div class="card blog-post-card">
-                    <img class="card-img-top" src="~/images/blog/blog-post-thumb-card-3.jpg" alt="image">
-                    <div class="card-body">
-                        <h5 class="card-title"><a class="theme-link" href="blog-post.html">A Guide to Becoming a Full-Stack Developer</a></h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
-                        <p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Published 3 weeks ago</small>
-                    </div>
-                </div><!--//card-->
+            <div class="card blog-post-card">
+            <img class="card-img-top" src="~/images/blog/blog-post-thumb-card-3.jpg" alt="image">
+            <div class="card-body">
+            <h5 class="card-title"><a class="theme-link" href="blog-post.html">A Guide to Becoming a Full-Stack Developer</a></h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient...</p>
+            <p class="mb-0"><a class="text-link" href="blog-post.html">Read more &rarr;</a></p>
+            </div>
+            <div class="card-footer">
+            <small class="text-muted">Published 3 weeks ago</small>
+            </div>
+            </div><!--//card-->
             </div><!--//col-->
-        </div><!--//row-->
-        <div class="text-center py-3"><a href="blog-home.html" class="btn btn-primary"><i class="fas fa-arrow-alt-circle-right me-2"></i>View Blogs</a></div>
-    </div><!--//container-->
+            </div>
+            <div class="text-center py-3"><a href="blog-home.html" class="btn btn-primary"><i class="fas fa-arrow-alt-circle-right me-2"></i>View Blogs</a></div>*@
+        </><!--//container-->
+    </div>
+</section>
 
-</section><!--//latest-blog-section-->
+<section class="my-work-section p-3 p-lg-5" id="my-works">
+    <div class="container">
+        <h2 class="section-title font-weight-bold mb-5">My Works</h2>
+
+        <div class="theme-bg-light">
+            <h3 style="height:200px;text-align:center;line-height:200px;vertical-align:middle">Section Under Construction....</h3>
+        </div>
+
+    </div>
+</section>
+
+<section class="p-3 p-lg-5" id="contact">
+    <div class="container">
+        <h2 class="section-title font-weight-bold mb-5">Contact</h2>
+
+        <div class="container">
+            <form id="contact-form" class="contact-form col-lg-8 mx-lg-auto" method="post" action="contact.html">
+                <h3 class="text-center mb-3">Please fill the form below.</h3>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="sr-only" for="cname">Name</label>
+                        <input type="text" class="form-control" id="cname" name="name" placeholder="Name" minlength="2" required="" aria-required="true">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="sr-only" for="cemail">Email</label>
+                        <input type="email" class="form-control" id="cemail" name="email" placeholder="Email" required="" aria-required="true">
+                    </div>
+                    <div class="col-12">
+                        <label class="sr-only" for="cmessage">Your message</label>
+                        <textarea class="form-control" id="cmessage" name="message" placeholder="Enter your message" rows="10" required="" aria-required="true"></textarea>
+                    </div>
+                    <div class="form-group col-12">
+                        <button type="submit" class="btn btn-block btn-primary py-2">Send Now</button>
+                    </div>
+                </div><!--//form-row-->
+            </form>
+        </div><!--//container-->
+
+    </div>
+
+
+</section>>
