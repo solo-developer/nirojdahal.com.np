@@ -28,7 +28,6 @@ namespace Personal.Domain.Services.Implementations
                 dto.SetDate(message.Date);
                 dto.Name = message.Name;
                 dto.Email = message.Email;
-                dto.Phone = message.Phone;
                 dto.Comment = message.Comment;
                 response.Add(dto);
             }
@@ -42,7 +41,6 @@ namespace Personal.Domain.Services.Implementations
                 ContactUs entity = new ContactUs();
                 entity.Name = dto.Name;
                 entity.Email = dto.Email;
-                entity.Phone = dto.Phone;
                 entity.Comment = dto.Comment;
                 entity.Date = DateTime.Now;
                 _contactUsRepo.Insert(entity);

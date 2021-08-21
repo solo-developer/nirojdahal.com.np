@@ -18,9 +18,7 @@ namespace Personal.Domain.Dto
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(20)]
-        public string Phone { get; set; }
+       
 
         [Required]
         [MaxLength(500)]

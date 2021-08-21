@@ -21,7 +21,7 @@ namespace niroj.website.Controllers
 
         [HttpPost]
         [Route("send-message")]
-        public async Task<IActionResult> SendMessage([FromBody] ContactUsDto dto)
+        public async Task<IActionResult> SendMessage([FromBody]ContactUsDto dto)
         {
             try
             {

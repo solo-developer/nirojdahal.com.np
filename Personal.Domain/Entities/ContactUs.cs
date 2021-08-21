@@ -14,11 +14,6 @@ namespace Personal.Domain.Entities
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        public string Phone { get; set; }
-
-
-        [Required]
         [MaxLength(500)]
         public string Comment { get; set; }
 

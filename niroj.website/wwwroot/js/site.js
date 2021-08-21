@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     $('#navigation').on('click', '.nav-item', setSidebarLinksActiveBasedOnLinksClicked);
+    $('#btn-contact-submit').on('click', sendMessage);
 });
 
 function setSidebarLinksActiveBasedOnLinksClicked() {
@@ -20,9 +21,9 @@ async function sendMessage() {
     let form = $(this).closest('form');
     let data = {
         Recaptcha: grecaptcha.getResponse(),
-        Email: $('.email').val(),
-        Name: $('.name').val(),
-        Comment: $('.message').val()
+        Email: $('.Email').val(),
+        Name: $('.Name').val(),
+        Comment: $('.Comment').val()
 
     };
     const response = await fetch(`/contact/send-message`, {
@@ -61,6 +62,9 @@ function addClass(container, className) {
 
 function clearFormValues(form) {
     form.find('input,textarea').each(function () {
+        if ($(this).hasClass('button')) {
+            return true;
+        }
         $(this).val('');
     });
 }
