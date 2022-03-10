@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using niroj.website.Models;
+using Personal.Domain.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,12 +12,7 @@ namespace niroj.website.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
-        {
-           
-        }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

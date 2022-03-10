@@ -13,6 +13,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Octokit" Version="0.50.0" />
+    <PackageReference Include="Octokit.Reactive" Version="0.47.0" />
   </ItemGroup>
 
   <ItemGroup>

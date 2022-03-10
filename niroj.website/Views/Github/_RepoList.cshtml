@@ -1,0 +1,19 @@
+﻿@model List<Personal.Domain.Dto.GithubRepoDto>
+
+<div class="content-right">
+    <a target="_blank" href="https://github.com/solo-developer?tab=repositories">View In Github >></a>
+</div>
+@foreach (var repo in Model)
+{
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="display-flex">
+                <h5 class="card-title">@repo.Name</h5>
+                <i class="fas fa-star stick-right mt-1"></i> &nbsp; @repo.StargazersCount stars
+            </div>
+
+            <p class="card-text">@repo.Description</p>
+            <a href="@repo.GitUrl">Navigate To Repo</a>
+        </div>
+    </div>
+}
