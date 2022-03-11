@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Personal.Domain.Constants;
 using Personal.Domain.Entities;
 using Personal.Infrastructure.Context;
 using System.Collections.Generic;
@@ -43,10 +44,18 @@ namespace niroj.website.SeedData
             {MOBILE_APP_DEVELOPMENT_KEY,"I have been developing mobile app for about a year now with the frameworks mentioned." },
             {WEB_DEVELOPMENT_KEY,"I have been developing web application for more than 4 years now with the frameworks mentioned" }
         };
+
+        private static readonly Dictionary<string, string> _appSettings = new Dictionary<string, string>
+        {
+            {AppSettingConstants.NAME,"Niroj Dahal" },
+            {AppSettingConstants.POSITION,"Senior Software Engineer" },
+            {AppSettingConstants.SIDEBAR_BIO,"Hi, my name is Niroj Dahal and I'm a full-stack developer. Welcome to my personal website!" },
+            {AppSettingConstants.CONTENT_BIO," I'm a software engineer specialised in frontend and backend development for complex scalable web apps. Want to know more about me? Check out my resume." },
+        };
         public static async Task SeedSkills(AppDbContext context)
         {
             var skillCategories = context.SkillCategories.AsEnumerable();
-            foreach (var key in _skillIcons.Keys.ToArray())
+            foreach (var key in _skillIcons.Keys)
             {
                 if (!skillCategories.Any(a => a.Title.Equals(key)))
                 {
@@ -62,6 +71,20 @@ namespace niroj.website.SeedData
             await context.SaveChangesAsync();
         }
 
+        public static async Task SeedAppSettings(AppDbContext context)
+        {
+            var appSettings = context.AppSettings.AsEnumerable();
+            foreach (var key in _appSettings.Keys)
+            {
+                if (!appSettings.Any(a => a.Key.Equals(key)))
+                {
+                    context.AppSettings.Add(new AppSetting(key, _appSettings[key]));
+                }
+            }
+
+            await context.SaveChangesAsync();
+        }
+
         public static IHost SeedData(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -69,6 +92,7 @@ namespace niroj.website.SeedData
                 var context = scope.ServiceProvider.GetService<AppDbContext>();
 
                 SeedSkills(context).GetAwaiter().GetResult();
+                SeedAppSettings(context).GetAwaiter().GetResult();
             }
             return host;
         }

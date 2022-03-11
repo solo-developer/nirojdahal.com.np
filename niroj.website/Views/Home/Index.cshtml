@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Dictionary<string,string>
+@using Personal.Domain.Constants
+@{
     var startDate = new System.DateTime(2016, 01, 01);
     var yearsOfWorking = DateTime.Now.Year - startDate.Year;
     if (startDate > DateTime.Now.AddYears(-yearsOfWorking))
@@ -10,10 +12,10 @@
         <div class="profile-teaser row">
 
             <div class="col">
-                <h2 class="name font-weight-bold mb-1">Niroj Dahal</h2>
-                <div class="tagline mb-3">Senior Software Engineer</div>
+                <h2 class="name font-weight-bold mb-1">@Model[AppSettingConstants.NAME]</h2>
+                <div class="tagline mb-3">@Model[AppSettingConstants.POSITION]</div>
                 <div class="bio mb-4">
-                    I'm a software engineer specialised in frontend and backend development for complex scalable web apps. Want to know more about me? Check out my resume.
+                    @Model[AppSettingConstants.CONTENT_BIO]
                 </div>
                 <div class="mb-4">
                     <a class="btn btn-primary me-2 mb-3" href="/attachment/resume" target="_blank"><i class="fas fa-arrow-alt-circle-right me-2"></i><span class="d-none d-md-inline">View</span> Resume</a>
@@ -31,7 +33,7 @@
         <h2 class="section-title font-weight-bold mb-3">What I do</h2>
         <div class="section-intro mb-5">I have more than  @yearsOfWorking years' experience building software. Below is a quick overview of my main technical skill sets and technologies I use. Want to find out more about my experience? Check out my <a class="text-link" href="/attachment/resume">resume</a>.</div>
         <div id="skills-container">
-        </div>      
+        </div>
     </div>
 </section>
 

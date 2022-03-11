@@ -12,6 +12,7 @@ namespace Personal.Infrastructure.Context
 
         }
      
+        public DbSet<AppSetting> AppSettings { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
