@@ -1,0 +1,41 @@
+﻿@model List<Personal.Domain.Dto.SkillCategoryDto>
+
+<div class="row">
+    @foreach (var skillCat in Model)
+    {
+        <div class="item col-6 col-lg-3">
+            <div class="item-inner">
+                <div class="item-icon">
+                    @{
+                        foreach (var icon in skillCat.Icons)
+                        {
+                            <i class="@icon"></i>
+                        }
+                    }
+
+                </div>
+                <h3 class="item-title">@skillCat.Title</h3>
+                <div class="item-desc">
+                    @{
+                        if (!string.IsNullOrEmpty(skillCat.Description))
+                        {
+                            <p>@skillCat.Description</p>
+                        }
+                    }
+                    <ul>
+                        @{
+                            for (var i = 0; i < skillCat.Skills.Count(); i++)
+                            {
+                                @:
+                                <li>@skillCat.Skills[i]</li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+            </div><!--//item-inner-->
+    </div>
+
+        <!--//item-->
+    }
+</div>
