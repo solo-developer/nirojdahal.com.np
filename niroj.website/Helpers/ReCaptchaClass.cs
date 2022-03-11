@@ -9,7 +9,7 @@ namespace niroj.website.Helpers
 {
     public class ReCaptchaClass
     {
-        public static string GetSecretKey() => "6LdIzHkaAAAAABJn5JCQdHcjAcDxlE9UZfEF1grq";
+        public static string GetSecretKey() => "6LeL_hYcAAAAAHwL8HENQ0UVpuZeUUq3afT0Wpk6";
         private static HttpClient client = new HttpClient();
         public static async Task<string> Validate(string EncodedResponse)
         {

@@ -12,9 +12,12 @@ namespace Personal.Domain.Services.Implementations
     public class ContactUsService : IContactUsService
     {
         private readonly IContactUsRepository _contactUsRepo;
-        public ContactUsService(IContactUsRepository contactUsRepo)
+        private readonly IEmailSenderService _emailSenderService;
+
+        public ContactUsService(IContactUsRepository contactUsRepo, IEmailSenderService emailSenderService)
         {
             _contactUsRepo = contactUsRepo;
+            _emailSenderService = emailSenderService;
         }
 
         public List<ContactUsDto> GetAllLaterThan(DateTime after = default)
@@ -46,6 +49,8 @@ namespace Personal.Domain.Services.Implementations
                 _contactUsRepo.Insert(entity);
                 tx.Complete();
             }
+            string emailContent = $"A User with email {dto.Email} is trying to reach you. <br/> <strong> Date : </strong> {DateTime.Now} <br/> <strong> Comment : </strong> {dto.Comment}";
+            _emailSenderService.SendEmail(new EmailMessageDto("Someone Is Trying to Reach You.", emailContent));
         }
     }
 }

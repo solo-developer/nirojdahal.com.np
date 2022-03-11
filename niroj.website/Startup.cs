@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
+using Personal.Domain.Configs;
 using Personal.Domain.Entities;
 using Personal.Domain.Repository.Interface;
 using Personal.Infrastructure.Context;
@@ -38,6 +39,8 @@ namespace niroj.website
        .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
             RegisterServices(services);
+            var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.  
