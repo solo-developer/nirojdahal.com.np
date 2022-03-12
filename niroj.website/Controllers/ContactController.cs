@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using niroj.website.Helpers;
+using Personal.Domain.Configs;
 using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Services.Interface;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,14 +14,17 @@ namespace niroj.website.Controllers
     public class ContactController : Controller
     {
         private readonly IContactUsService _contactUsService;
-        public ContactController(IContactUsService contactUsService)
+        private readonly RecaptchaConfiguration _recaptchaConfiguration;
+
+        public ContactController(IContactUsService contactUsService, RecaptchaConfiguration recaptchaConfig)
         {
-            _contactUsService=contactUsService;
+            _contactUsService = contactUsService;
+            _recaptchaConfiguration = recaptchaConfig;
         }
 
         [HttpPost]
         [Route("send-message")]
-        public async Task<IActionResult> SendMessage([FromBody]ContactUsDto dto)
+        public async Task<IActionResult> SendMessage([FromBody] ContactUsDto dto)
         {
             try
             {
@@ -30,7 +33,7 @@ namespace niroj.website.Controllers
                     var allErrors = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
                     return Json(JsonWrapper.buildErrorJson(allErrors.First()));
                 }
-                bool IsCaptchaValid = await ReCaptchaClass.Validate(dto.Recaptcha) == "true" ? true : false;
+                bool IsCaptchaValid = await ReCaptchaClass.Validate(_recaptchaConfiguration, dto.Recaptcha) == "true" ? true : false;
 
                 if (IsCaptchaValid)
                 {

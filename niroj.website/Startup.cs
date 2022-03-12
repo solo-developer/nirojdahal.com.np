@@ -41,6 +41,8 @@ namespace niroj.website
             RegisterServices(services);
             var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
+            var recaptchaConfig = Configuration.GetSection("Recaptcha").Get<RecaptchaConfiguration>();
+            services.AddSingleton(recaptchaConfig);
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.  
