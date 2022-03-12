@@ -10,11 +10,9 @@ function setSidebarLinksActiveBasedOnLinksClicked() {
 
 async function sendMessage() {
     event.preventDefault();
-    let errorContainer = $('#msgSubmit');
     let captchaResponse = grecaptcha.getResponse();
     if (captchaResponse == undefined || captchaResponse == '') {
-        addClass(errorContainer, 'text-danger');
-        errorContainer.text('Please complete recaptcha verification.');
+        toastr.error('Please complete recaptcha verification.', 'Error!!');
         return;
     }
     $(this).prop('disabled', 'true');
@@ -24,7 +22,6 @@ async function sendMessage() {
         Email: $('.Email').val(),
         Name: $('.Name').val(),
         Comment: $('.Comment').val()
-
     };
     const response = await fetch(`/contact/send-message`, {
         method: 'POST',
@@ -34,17 +31,14 @@ async function sendMessage() {
     try {
         var jsonData = await response.json();
         if (isErrorResponse(jsonData)) {
-            addClass(errorContainer, 'text-danger');
-            errorContainer.text(jsonData.error);
+            toastr.error(jsonData.error, 'Error!!')
         }
         else {
-            addClass(errorContainer, 'text-info');
-            errorContainer.text('Message Sent Successfully.');
+            toastr.success('Message Sent Successfully.', 'Success!!')
             clearFormValues(form);
         }
     } catch (e) {
-        addClass(errorContainer, 'text-danger');
-        errorContainer.text('Failed to send message. Please try again later.');
+        toastr.error('Failed to send message. Please try again later.', 'Error!!');
     }
     $(this).prop('disabled', 'false');
 }
