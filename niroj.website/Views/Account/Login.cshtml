@@ -1,0 +1,62 @@
+﻿@model LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Niroj Dahal | Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Personal Website" />
+    <meta name="author" content="Niroj Dahal" />
+    <link href="~/backend/assets/css/vendor.min.css" rel="stylesheet" />
+    <link href="~/backend/assets/css/app.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="app" class="app app-full-height app-without-header">
+        <div class="login">
+            <div class="login-content">
+                @using (Html.BeginForm(method:FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                   
+                    <h1 class="text-center">Sign In</h1>
+                    <div class="text-muted text-center mb-4">
+                        For your protection, please verify your identity.
+                    </div>
+
+                     @Html.ValidationSummary(true,null,htmlAttributes:new{@Class="text-danger"})
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        @Html.TextBoxFor(a=>a.Email,null,new{@Class="form-control-lg fs-15px form-control", placeholder="Email Address"})
+                        @Html.ValidationMessageFor(a=>a.Email, null,new{@Class="text-error"})
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex">
+                            <label class="form-label">Password</label>
+                            <a href="#" class="ms-auto text-muted">Forgot password?</a>
+                        </div>
+                         @Html.PasswordFor(a=>a.Password,new{@Class="form-control-lg fs-15px form-control", placeholder="Password"})
+                        @Html.ValidationMessageFor(a=>a.Password, null,new{@Class="text-error"})
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="customCheck1" />
+                            <label class="form-check-label fw-500" for="customCheck1">Remember me</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg d-block w-100 fw-500 mb-3">Sign In</button>
+                    <div class="text-center text-muted">
+                        Don't have an account yet? <a href="page_register.html">Sign up</a>.
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+    <script src="~/backend/assets/js/vendor.min.js"></script>
+    <script src="~/backend/assets/js/app.min.js"></script>
+
+</body>
+</html>

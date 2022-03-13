@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Personal.Domain.Constants;
 using Personal.Domain.Entities;
 using Personal.Infrastructure.Context;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -52,6 +54,42 @@ namespace niroj.website.SeedData
             {AppSettingConstants.SIDEBAR_BIO,"Hi, my name is Niroj Dahal and I'm a full-stack developer. Welcome to my personal website!" },
             {AppSettingConstants.CONTENT_BIO," I'm a software engineer specialised in frontend and backend development for complex scalable web apps. Want to know more about me? Check out my resume." },
         };
+
+        private static string _roleId = Guid.NewGuid().ToString();
+        public static async Task SeedUsers(AppDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            var role = context.Roles.Where(a => a.Name == "admin").SingleOrDefault();
+            if (role == null)
+            {
+                role = new IdentityRole()
+                {
+                    Id = _roleId,
+                    Name = "admin",
+                    NormalizedName = "admin".ToUpper()
+                };
+
+                context.Roles.Add(role);
+                await context.SaveChangesAsync();
+            }
+            _roleId = role.Id;
+            if (!context.Users.Any(a => a.UserName == "admin"))
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = "admin",
+                    Email = "developer.niroj@gmail.com"
+                };
+
+                IdentityResult result = await userManager.CreateAsync(user, "Pass@word1");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, role.Name);
+                }
+                await context.SaveChangesAsync();
+            }
+        }
+
         public static async Task SeedSkills(AppDbContext context)
         {
             var skillCategories = context.SkillCategories.AsEnumerable();
@@ -90,7 +128,9 @@ namespace niroj.website.SeedData
             using (var scope = host.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<AppDbContext>();
+                var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
 
+                SeedUsers(context, userManager).GetAwaiter().GetResult();
                 SeedSkills(context).GetAwaiter().GetResult();
                 SeedAppSettings(context).GetAwaiter().GetResult();
             }
