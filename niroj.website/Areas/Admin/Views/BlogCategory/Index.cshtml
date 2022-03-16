@@ -1,0 +1,70 @@
+﻿@model List<BlogCategoryDto>
+@{
+    Layout = "_BackendLayout";
+    ViewData["Title"] = "Blog Category";
+
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Blog Category</h5>
+                    <div class="ibox-tools">
+                        <button type="button" class="btn btn-w-m btn-success btn-header-sm btn-add-blog-category"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp; New Category</button>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover tbl-datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Slug</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int sn = 1;
+                                    foreach (var category in Model)
+                                    {
+                                        <tr class="gradeX">
+                                            <td>
+                                                @sn
+                                                <input type="hidden" class="category-id" value="@category.Id" />
+                                            </td>
+
+                                            <td class="center">@category.Title</td>
+                                            <td class="center">@category.Description</td>
+                                            <td class="center">@category.Slug</td>
+                                            <th>
+                                                <i class="fa fa-edit pointer btn-edit-category" data-toggle="tooltip" title="Edit Blog Category"></i>
+                                                <a href="/admin/blog-category/delete?category_id=@category.Id"> <i class="fa fa-trash pointer btn-delete-category" data-toggle="tooltip" title="Delete Blog Category"></i></a>
+                                            </th>
+                                        </tr>
+                                        sn++;
+                                    }
+                                }
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script src="~/js/Admin/BlogCategory.js" asp-append-version="true"></script>
+
+}

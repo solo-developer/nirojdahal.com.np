@@ -1,0 +1,34 @@
+﻿@model BlogCategoryDto
+
+<form class="category-form">
+    @Html.HiddenFor(a => a.Id)
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label">Title</label>
+
+        <div class="col-lg-10">
+            @Html.TextBoxFor(a => a.Title, new { @Class = "form-control category-name" })
+            @Html.ValidationMessageFor(a=>a.Title,null,new { @Class="text-danger"})
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label">Description</label>
+
+        <div class="col-lg-10">
+            @Html.TextBoxFor(a => a.Description, new { @Class = "form-control" })
+            @Html.ValidationMessageFor(a=>a.Description,null,new { @Class="text-danger"})
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-offset-2 col-lg-10">
+            @{
+                string buttonText = "Update";
+                if (Model.Id == 0)
+                {
+                    buttonText = "Save";
+                } }
+            <button class="btn btn-sm btn-white category-submit-btn" type="button"><i class="fa fa-save"></i><strong>&nbsp;&nbsp;&nbsp;@buttonText</strong></button>
+        </div>
+    </div>
+</form>

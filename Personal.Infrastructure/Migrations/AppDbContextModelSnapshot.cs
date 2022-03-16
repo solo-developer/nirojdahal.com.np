@@ -413,6 +413,30 @@ namespace Personal.Infrastructure.Migrations
                     b.ToTable("Contact");
                 });
 
+            modelBuilder.Entity("Personal.Domain.Entities.LastRead", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Key")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReadBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ReadDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReadBy");
+
+                    b.ToTable("LeadRead");
+                });
+
             modelBuilder.Entity("Personal.Domain.Entities.Skill", b =>
                 {
                     b.Property<long>("Id")
@@ -589,6 +613,17 @@ namespace Personal.Infrastructure.Migrations
                     b.Navigation("Blog");
 
                     b.Navigation("ParentComment");
+                });
+
+            modelBuilder.Entity("Personal.Domain.Entities.LastRead", b =>
+                {
+                    b.HasOne("Personal.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("ReadBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Personal.Domain.Entities.Skill", b =>

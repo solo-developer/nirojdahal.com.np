@@ -1,0 +1,80 @@
+﻿@model BlogDto
+@{
+      Layout = "_BackendLayout";
+    ViewData["Title"] = "Blogs";
+    string actionName = Model.Id > 0 ? "edit" : "save";
+}
+<div class="col-lg-12">
+    <div class="ibox ">
+        <div class="ibox-title">
+            <h5>Blog</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+              <form role="form" method="post" enctype="multipart/form-data" action="/admin/blog/@actionName">
+                <div class="row">
+                    <div class="col-sm-8 b-r">
+                  
+                        <input type="hidden" class="file-folder-name" value="blog-img"/>
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(a=>a.Id)
+                            <div class="form-group">
+                                <label>Title</label>
+                                @Html.TextBoxFor(a=>a.Title,null,new{@Class="form-control",Placeholder="Title",required="required"})
+                                 @Html.ValidationMessageFor(a => a.Title, null, new { @Class = "text-danger" })
+                            </div>
+                             <div class="form-group">
+                                <label>Blog Category</label>
+                                  @Html.DropDownListFor(a=>a.CategoryId,new SelectList(ViewBag.categories,"Id","Title"),"--SELECT--",new{@Class="form-control",Placeholder="Description"})
+
+                                   @Html.ValidationMessageFor(a => a.ShortDescription, null, new { @Class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Short Description</label>
+                                  @Html.TextAreaFor(a=>a.ShortDescription,new{@Class="form-control",Placeholder="Description"})
+
+                                   @Html.ValidationMessageFor(a => a.ShortDescription, null, new { @Class = "text-danger" })
+                            </div>
+
+                              <div class="form-group">
+                                <label>Content</label>
+                                  @Html.TextAreaFor(a=>a.Content,new{@Class="form-control",Placeholder="Content",id="service-content"})
+
+                                   @Html.ValidationMessageFor(a => a.Content, null, new { @Class = "text-danger" })
+                            </div>
+                            <div>
+                               <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><i class="fa fa-save"></i><strong>&nbsp;&nbsp;&nbsp;Save</strong></button>
+                            </div>
+                    </div>
+
+                     <div class="col-sm-4">
+                         <label>Banner Image</label>
+                            <div id="preview-normal">
+                                @{ string imgSrc = "";
+                                                if (!string.IsNullOrWhiteSpace(Model.BannerImage))
+                                                {
+                                                    imgSrc = "/uploads/blog-img/" + Model.BannerImage;
+                                                } }
+                                <img class="preview" src="@imgSrc" />
+                            </div>
+                            <input class="file mt-5 " name="Banner" type="file" id="btn-image-preview" accept="image/x-png,image/gif,image/jpeg" />
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+     <script src="~/js/Admin/Blog.js" asp-append-version="true"></script>
+}

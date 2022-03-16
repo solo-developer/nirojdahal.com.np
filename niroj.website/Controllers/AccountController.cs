@@ -41,6 +41,8 @@ namespace niroj.website.Controllers
                     var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
                     identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                    identity.AddClaim(new Claim("user_id", user.Id.ToString()));
+
                     await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                         new ClaimsPrincipal(identity));
                     return Redirect("/admin/home");

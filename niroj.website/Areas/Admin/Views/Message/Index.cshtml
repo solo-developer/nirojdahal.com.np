@@ -1,0 +1,86 @@
+﻿@model List<ContactUsDto>
+@{
+    Layout = "_BackendLayout";
+    ViewData["Title"] = "Messages";
+
+    var messages = Model.OrderByDescending(a => a.GetDate()).ToList();
+    DateTime lastReceivedDate = DateTime.Now;
+    if (messages.Any())
+    {
+        lastReceivedDate = messages.First().GetDate();
+    }
+
+}
+<div class="wrapper wrapper-content">
+    <div class="row">
+
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="mail-box-header">
+
+                <form method="get" action="index.html" class="float-right mail-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" name="search" placeholder="Search email">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <h2>
+                    Inbox (@messages.Count)
+                </h2>
+                <div class="mail-tools tooltip-demo m-t-md">
+                    <div class="btn-group float-right">
+                        <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+                        <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+
+                    </div>
+                    <a class="btn btn-white btn-sm" href="/admin/messages"><i class="fa fa-refresh"></i> Refresh</a>
+
+                </div>
+            </div>
+            <div class="mail-box">
+
+                <table class="table table-hover table-mail">
+                    <thead>
+                        <tr>
+                            <th style="width:150px">Name</th>
+                            <th style="width:250px">Email</th>
+                            <th>Comment</th>
+
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (!messages.Any())
+                            {
+                            <tr colspan="7" class="text-center"><td><h4>There are no messages.</h4></td></tr>
+                            }
+                            else
+                            {
+                                foreach (var message in messages)
+                                {
+                                    var className = message.IsUnread() ? "unread" : "read";
+                            <tr class="@className">
+                                <td class="">@message.Name</td>
+                                <td class="">@message.Email</td>
+                                <td class="mail-subject">@message.Comment</td>
+                               
+                                <td class="text-right">@message.GetDate().ToString("yyyy/MM/dd hh:mm:ss tt")</td>
+                            </tr>
+                            }
+                            }
+
+                        }
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
