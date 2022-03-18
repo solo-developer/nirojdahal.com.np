@@ -1,5 +1,5 @@
 ﻿@model Dictionary<string,string>
-@using Personal.Domain.Constants
+@using Personal.Domain.Enums
 @{
     var startDate = new System.DateTime(2016, 01, 01);
     var yearsOfWorking = DateTime.Now.Year - startDate.Year;
@@ -12,10 +12,10 @@
         <div class="profile-teaser row">
 
             <div class="col">
-                <h2 class="name font-weight-bold mb-1">@Model[AppSettingConstants.NAME]</h2>
-                <div class="tagline mb-3">@Model[AppSettingConstants.POSITION]</div>
+                <h2 class="name font-weight-bold mb-1">@Model[AppSettingKeys.Name.ToString()]</h2>
+                <div class="tagline mb-3">@Model[AppSettingKeys.Position.ToString()]</div>
                 <div class="bio mb-4">
-                    @Model[AppSettingConstants.CONTENT_BIO]
+                    @Model[AppSettingKeys.ContentBio.ToString()]
                 </div>
                 <div class="mb-4">
                     <a class="btn btn-primary me-2 mb-3" href="/attachment/resume" target="_blank"><i class="fas fa-arrow-alt-circle-right me-2"></i><span class="d-none d-md-inline">View</span> Resume</a>

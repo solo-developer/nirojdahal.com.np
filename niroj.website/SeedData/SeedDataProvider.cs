@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Personal.Domain.Constants;
 using Personal.Domain.Entities;
+using Personal.Domain.Enums;
 using Personal.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,10 +48,10 @@ namespace niroj.website.SeedData
 
         private static readonly Dictionary<string, string> _appSettings = new Dictionary<string, string>
         {
-            {AppSettingConstants.NAME,"Niroj Dahal" },
-            {AppSettingConstants.POSITION,"Senior Software Engineer" },
-            {AppSettingConstants.SIDEBAR_BIO,"Hi, my name is Niroj Dahal and I'm a full-stack developer. Welcome to my personal website!" },
-            {AppSettingConstants.CONTENT_BIO," I'm a software engineer specialised in frontend and backend development for complex scalable web apps. Want to know more about me? Check out my resume." },
+            {AppSettingKeys.Name.ToString(),"Niroj Dahal" },
+            {AppSettingKeys.Position.ToString(),"Senior Software Engineer" },
+            {AppSettingKeys.SidebarBio.ToString(),"Hi, my name is Niroj Dahal and I'm a full-stack developer. Welcome to my personal website!" },
+            {AppSettingKeys.ContentBio.ToString()," I'm a software engineer specialised in frontend and backend development for complex scalable web apps. Want to know more about me? Check out my resume." },
         };
 
         private static string _roleId = Guid.NewGuid().ToString();
