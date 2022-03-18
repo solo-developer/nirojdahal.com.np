@@ -1,0 +1,110 @@
+﻿@model List<GalleryDto>
+@{
+    ViewData["Title"] = "Gallery";
+    Layout = "_BackendLayout";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Gallery</h5>
+                    <div class="ibox-tools">
+                        <a href="/admin/gallery/new" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;New Image</a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover tbl-datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Slider Image</th>
+                                   
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int sn = 1;
+                                    foreach (var image in Model)
+                                    {
+                                        <tr class="gradeX">
+                                            <td>
+                                                @sn
+                                                <input type="hidden" class="gallery-id" value="@image.Id" />
+                                            </td>
+
+                                            <td class="center">
+                                                <img alt="@image.ImageName" class="rounded-circle grid-img" src="~/uploads/gallery-img/@image.ImageName" />
+                                            </td>
+                                            <td class="center">@image.Title</td>
+                                            <td class="center">@image.Description</td>
+                                            <td class="center">@(image.IsEnabled?"Enabled":"Disabled")</td>
+                                            <td>
+                                            @{ 
+                                             if(image.IsSliderImage){
+                                                  <span class="badge badge-primary">Enabled</span>
+                                             }
+                                             else{
+                                                   <span class="badge badge-danger">Disabled</span>
+                                             }
+                                             }
+                                             </td>
+                                            
+                                           <td class="center">
+                                          
+
+                                               <a href="/admin/gallery/edit/@image.Id" class="btn btn-icon waves-effect waves-light btn-primary btn-sm " data-toggle="tooltip" title="Edit Image"><i class="fa fa-pencil"></i></a>
+
+                                                <a href="/admin/gallery/delete/@image.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm delete" data-toggle="tooltip" title="Delete Image"><i class="fa fa-trash"></i></a>
+                                                @{
+                                                    if (image.IsSliderImage)
+                                                    {
+                                                        <a href="/admin/gallery/unmake-slider/@image.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm" data-toggle="tooltip" title="Deactivate Slider Image"><i class="fa fa-photo"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/admin/gallery/make-slider/@image.Id" class="btn btn-icon waves-effect waves-light btn-success btn-sm" data-toggle="tooltip" title="Activate Slider Image"><i class="fa fa-photo"></i></a>
+                                                    }
+                                                }
+                                                @{
+                                                    if (image.IsEnabled)
+                                                    {
+                                                        <a href="/admin/gallery/disable/@image.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm " data-toggle="tooltip" title="Disable Image"><i class="fa fa-thumbs-down"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/admin/gallery/enable/@image.Id" class="btn btn-icon waves-effect waves-light btn-success btn-sm " data-toggle="tooltip" title="Enable Image"><i class="fa fa-thumbs-up"></i></a>
+
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        sn++;
+                                    }
+                                }
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/Admin/Gallery.js" asp-append-version="true"></script>
+
+}

@@ -4,6 +4,10 @@
     ViewData["Title"] = "Blogs";
     string actionName = Model.Id > 0 ? "edit" : "save";
 }
+@section styles{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
+
+}
 <div class="col-lg-12">
     <div class="ibox ">
         <div class="ibox-title">
@@ -47,7 +51,7 @@
 
                               <div class="form-group">
                                 <label>Content</label>
-                                  @Html.TextAreaFor(a=>a.Content,new{@Class="form-control",Placeholder="Content",id="service-content"})
+                                  @Html.TextAreaFor(a=>a.Content,new{@Class="form-control",Placeholder="Content"})
 
                                    @Html.ValidationMessageFor(a => a.Content, null, new { @Class = "text-danger" })
                             </div>
@@ -77,4 +81,8 @@
 
 @section scripts{
      <script src="~/js/Admin/Blog.js" asp-append-version="true"></script>
+     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+     <script>
+         var simplemde = new SimpleMDE({ element: document.getElementById("Content") });
+     </script>
 }
