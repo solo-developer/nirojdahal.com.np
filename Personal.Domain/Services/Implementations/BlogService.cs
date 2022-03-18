@@ -44,9 +44,12 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public List<BlogDto> GetAll()
+        public List<BlogDto> GetAll(int skip, int? take=null)
         {
-            var blogs = _blogRepo.GetAll();
+            var blogs = _blogRepo.GetQueryable().Skip(skip);
+            if (take.HasValue)
+                blogs = blogs.Take(take.Value);
+            blogs = blogs.OrderByDescending(a => a.CreatedDate).AsQueryable();
 
             var allBlogCategoryIds = blogs.Where(a => a.CategoryId.HasValue).Select(a => a.CategoryId).Distinct();
 
@@ -54,7 +57,7 @@ namespace Personal.Domain.Services.Implementations
 
             var response = new List<BlogDto>();
 
-            foreach (var blog in blogs)
+            foreach (var blog in blogs.ToList())
             {
                 BlogCategory category = null;
                 if (blog.CategoryId.HasValue)

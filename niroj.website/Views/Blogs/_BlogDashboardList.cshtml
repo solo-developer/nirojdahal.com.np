@@ -1,0 +1,39 @@
+﻿@using Westwind.AspNetCore.Markdown
+@model List<Personal.Domain.Dto.BlogDto>
+
+
+@if (Model.Any())
+{
+    <div class="row">
+
+        @foreach (var repo in Model)
+        {
+            var content = Markdown.ParseHtmlString(repo.Content);
+            var trimmedContent = content.Value.Substring(0, 300);
+            var lastIndexOfFullStop = trimmedContent.LastIndexOf(".");
+            trimmedContent = trimmedContent.Substring(0, lastIndexOfFullStop + 1);
+            <div class="col-md-4 mb-5">
+                <div class="card blog-post-card">
+                    <img class="card-img-top" src="~/uploads/blog-img/@repo.BannerImage" alt="@repo.Title">
+                    <div class="card-body">
+                        <h5 class="card-title"><a class="theme-link" href="/blogs/@repo.Slug">@repo.Title</a></h5>
+                        <p class="card-text">@Html.Raw(trimmedContent)</p>
+                        <p class="mb-0"><a class="text-link" href="/blogs/@repo.Slug">Read more &rarr;</a></p>
+
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Published 2 days ago</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="text-center py-3"><a href="/blogs" class="btn btn-primary"><i class="fas fa-arrow-alt-circle-right me-2"></i>View Blog</a></div>
+}
+else
+{
+    <div class="theme-bg-light">
+        <h3 style="height:200px;text-align:center;line-height:200px;vertical-align:middle">Blog coming soon....</h3>
+    </div>
+}
+

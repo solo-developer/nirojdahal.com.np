@@ -15,6 +15,7 @@
     </PackageReference>
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="Octokit.Reactive" Version="0.47.0" />
+    <PackageReference Include="westwind.aspnetcore.markdown" Version="3.7.0" />
   </ItemGroup>
 
   <ItemGroup>

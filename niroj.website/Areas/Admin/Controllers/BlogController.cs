@@ -36,7 +36,7 @@ namespace niroj.website.Areas.Admin.Controllers
         {
             try
             {
-                var datas = _blogService.GetAll();
+                var datas = _blogService.GetAll(0);
                 return View(datas);
             }
             catch (CustomException ex)

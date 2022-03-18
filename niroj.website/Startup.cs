@@ -14,6 +14,7 @@ using Personal.Infrastructure.Context;
 using Personal.Infrastructure.Repository.Implementations;
 using System;
 using System.Linq;
+using Westwind.AspNetCore.Markdown;
 
 namespace niroj.website
 {
@@ -80,8 +81,8 @@ namespace niroj.website
                 options.SlidingExpiration = true;
                 options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
             });
-
-            services.AddControllersWithViews();
+            services.AddMarkdown();
+            services.AddControllersWithViews().AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly); ;
 
             services.AddRecaptcha(new RecaptchaOptions
             {
@@ -133,6 +134,7 @@ namespace niroj.website
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseMarkdown();
             app.UseStaticFiles();
 
             app.UseRouting();
