@@ -97,7 +97,9 @@ namespace Personal.Domain.Services.Implementations
                 var blog = new Entities.Blog();
                 _blogAssembler.Copy(dto, blog);
                 blog.CreatedBy = dto.PerformedBy;
-                blog.CreatedDate = DateTime.Now;
+                blog.CreatedDate = DateTime.Now; 
+                blog.ModifiedBy = dto.PerformedBy;
+                blog.ModifiedDate = DateTime.Now;
                 _blogRepo.Insert(blog);
 
                 if (!string.IsNullOrEmpty(dto.BannerImage))
