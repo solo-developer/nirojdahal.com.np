@@ -6,7 +6,7 @@
     <UserSecretsId>7f820265-bd66-4b10-b447-ede40be8d46d</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
-    <Nullable>annotations</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

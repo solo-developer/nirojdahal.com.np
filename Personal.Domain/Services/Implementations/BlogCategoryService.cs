@@ -67,6 +67,8 @@ namespace Personal.Domain.Services.Implementations
                 _blogCategoryAssembler.Copy(dto, entity);
                 entity.CreatedBy = dto.PerformedBy;
                 entity.CreatedDate = DateTime.Now;
+                entity.ModifiedBy = dto.PerformedBy;
+                entity.ModifiedDate = DateTime.Now;
                 _blogCategoryRepo.Insert(entity);
                 tx.Complete();
             }
