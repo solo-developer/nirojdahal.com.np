@@ -32,11 +32,11 @@ namespace niroj.website.Areas.Admin.Controllers
         [Route("")]
         [HttpGet]
         [Route("index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var datas = _blogService.GetAll(0);
+                var datas = await _blogService.GetAll(0);
                 return View(datas);
             }
             catch (CustomException ex)
@@ -52,7 +52,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [Route("new")]
         [HttpGet]
-       // [Authorize(Policy = "AddBlog")]
+        // [Authorize(Policy = "AddBlog")]
         public IActionResult New()
         {
             try
@@ -74,7 +74,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [Route("save")]
         [HttpPost]
-       // [Authorize(Policy = "AddBlog")]
+        // [Authorize(Policy = "AddBlog")]
         public async Task<IActionResult> Save(BlogDto dto)
         {
             try
@@ -110,7 +110,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("edit/{id}")]
-     //   [Authorize(Policy = "UpdateBlog")]
+        //   [Authorize(Policy = "UpdateBlog")]
         public IActionResult Edit(long id)
         {
             try
@@ -129,7 +129,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("edit")]
-      //  [Authorize(Policy = "UpdateBlog")]
+        //  [Authorize(Policy = "UpdateBlog")]
         public async Task<IActionResult> Edit(BlogDto dto)
         {
             try
@@ -165,7 +165,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("publish/{id}")]
-      //  [Authorize(Policy = "UpdateBlog")]
+        //  [Authorize(Policy = "UpdateBlog")]
         public IActionResult Publish(long id)
         {
             try
@@ -182,7 +182,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("unpublish/{id}")]
-       // [Authorize(Policy = "UpdateBlog")]
+        // [Authorize(Policy = "UpdateBlog")]
         public IActionResult Unpublish(long id)
         {
             try
@@ -199,7 +199,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("delete/{blog_id}")]
-      //  [Authorize(Policy = "DeleteBlog")]
+        //  [Authorize(Policy = "DeleteBlog")]
         public IActionResult Delete(long blog_id)
         {
             try

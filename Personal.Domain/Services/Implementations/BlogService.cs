@@ -44,7 +44,7 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public List<BlogDto> GetAll(int skip, int? take=null)
+        public async Task<List<BlogDto>> GetAll(int skip, int? take=null)
         {
             var blogs = _blogRepo.GetQueryable().Skip(skip);
             if (take.HasValue)
