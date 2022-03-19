@@ -1,6 +1,6 @@
 ﻿@using Westwind.AspNetCore.Markdown
 @model List<Personal.Domain.Dto.BlogDto>
-
+@using Humanizer
 
 @if (Model.Any())
 {
@@ -22,7 +22,7 @@
 
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Published 2 days ago</small>
+                        <small class="text-muted">Published @repo.CreatedDate.Humanize()</small>
                     </div>
                 </div>
             </div>

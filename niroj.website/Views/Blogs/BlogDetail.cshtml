@@ -1,16 +1,16 @@
 ﻿@model Personal.Domain.Dto.BlogDto
 @using Westwind.AspNetCore.Markdown
+@using Humanizer
 <article class="blog-post px-3 py-5 p-md-5">
     <div class="container single-col-max-width">
         <header class="blog-post-header">
             <h2 class="title mb-2">@Model.Title</h2>
-            <div class="meta mb-3"><span class="date">Published 2 days ago</span><span class="time">5 min read</span><span class="comment"><a class="text-link" href="blog-post.html#">4 comments</a></span></div>
+            <div class="meta mb-3"><span class="date">Published @Model.CreatedDate.Humanize()</span><span class="time">5 min read</span><span class="comment"><a class="text-link" href="blog-post.html#">4 comments</a></span></div>
         </header>
 
         <div class="blog-post-body">
             <figure class="blog-banner">
-                <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid" src="~/uploads/blog-img/@Model.BannerImage" alt="image"></a>
-               @* <figcaption class="mt-2 text-center image-caption">Image Credit: <a class="theme-link" href="https://made4dev.com?ref=devblog" target="_blank">made4dev.com (Premium Programming T-shirts)</a></figcaption>*@
+                <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid" src="~/uploads/blog-img/@Model.BannerImage" alt="image"></a>              
             </figure>
             @Html.Raw(Markdown.ParseHtmlString(Model.Content))
 
