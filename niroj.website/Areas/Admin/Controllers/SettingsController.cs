@@ -9,10 +9,11 @@ using Personal.Domain.Services.Interface;
 using System;
 using System.Collections.Generic;
 
-namespace niroj.website.Controllers
+namespace niroj.website.Areas.Admin.Controllers
 {
     [Authorize]
-    [Route("settings")]
+    [Area("Admin")]
+    [Route("admin/settings")]
     public class SettingsController : Controller
     {
         private readonly ISettingService _settingService;
