@@ -70,7 +70,7 @@ namespace Personal.Domain.Services.Implementations
 
         public async Task<bool> IsNameDuplicate(TagDto dto)
         {
-            var tagWithSameName = await _tagRepo.FindAsync(a => a.Name.ToLower().Trim().Equals(dto.Name.ToLower().Trim()));
+            var tagWithSameName = await _tagRepo.FindAsync(a =>!a.IsDeleted && a.Name.ToLower().Trim().Equals(dto.Name.ToLower().Trim()));
 
             if (tagWithSameName == null)
                 return false;

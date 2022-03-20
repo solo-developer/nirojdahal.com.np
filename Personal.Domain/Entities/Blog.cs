@@ -52,6 +52,7 @@ namespace Personal.Domain.Entities
         public virtual BlogCategory Category { get; set; }
 
         public virtual List<BlogComment> Comments { get; set; } = new List<BlogComment>();
+        public virtual List<BlogTagMap> Tags { get; set; } = new List<BlogTagMap>();
 
         internal void HideFromView(string performedBy)
         {

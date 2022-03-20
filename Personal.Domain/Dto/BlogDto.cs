@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Personal.Domain.Dto
@@ -31,6 +32,10 @@ namespace Personal.Domain.Dto
         public DateTime  CreatedDate { get;private set; }
 
         public bool IsPublished { get; set; }
+
+        public List<long> Tags { get; set; } = new List<long>();
+
+        public List<string> TagNames { get; set; }=new List<string>();
 
         public void SetSlug(string slug)
         {

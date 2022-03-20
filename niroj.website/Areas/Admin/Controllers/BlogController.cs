@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using niroj.website.Controllers;
 using niroj.website.Helpers;
 using Personal.Domain.Dto;
+using Personal.Domain.Entities;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Helpers;
+using Personal.Domain.Repository.Interface;
 using Personal.Domain.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -21,12 +23,14 @@ namespace niroj.website.Areas.Admin.Controllers
         private readonly IBlogService _blogService;
         private readonly IBlogCategoryService _blogCategoryService;
         private readonly IFileHelper _fileHelper;
+        private readonly ITagService _tagService;
 
-        public BlogController(IBlogService blogService, IBlogCategoryService blogCategoryService, IFileHelper fileHelper)
+        public BlogController(IBlogService blogService, IBlogCategoryService blogCategoryService, IFileHelper fileHelper, ITagService tagService)
         {
             _blogService = blogService;
             _blogCategoryService = blogCategoryService;
             _fileHelper = fileHelper;
+            _tagService = tagService;
         }
 
         [Route("")]
@@ -53,12 +57,14 @@ namespace niroj.website.Areas.Admin.Controllers
         [Route("new")]
         [HttpGet]
         // [Authorize(Policy = "AddBlog")]
-        public IActionResult New()
+        public async Task<IActionResult> New()
         {
             try
             {
                 var categories = _blogCategoryService.GetAll();
                 ViewBag.categories = categories;
+                var tags = await _tagService.GetAllUndeleted();
+                ViewBag.TagOptions = tags;
                 return View(new BlogDto());
             }
             catch (CustomException ex)
@@ -104,20 +110,23 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 var categories = _blogCategoryService.GetAll();
                 ViewBag.categories = categories;
+                var tags = await _tagService.GetAllUndeleted();
+                ViewBag.TagOptions = tags;
             }
             return View("New", dto);
         }
 
         [HttpGet]
         [Route("edit/{id}")]
-        //   [Authorize(Policy = "UpdateBlog")]
-        public IActionResult Edit(long id)
+        public async Task<IActionResult> Edit(long id)
         {
             try
             {
                 var blog = _blogService.GetById(id);
                 var categories = _blogCategoryService.GetAll();
                 ViewBag.categories = categories;
+                var tags = await _tagService.GetAllUndeleted();
+                ViewBag.TagOptions = tags;
                 return View("New", blog);
             }
             catch (Exception ex)
@@ -129,7 +138,6 @@ namespace niroj.website.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("edit")]
-        //  [Authorize(Policy = "UpdateBlog")]
         public async Task<IActionResult> Edit(BlogDto dto)
         {
             try
@@ -159,6 +167,8 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 var categories = _blogCategoryService.GetAll();
                 ViewBag.categories = categories;
+                var tags = await _tagService.GetAllUndeleted();
+                ViewBag.TagOptions = tags;
             }
             return View("New", dto);
         }

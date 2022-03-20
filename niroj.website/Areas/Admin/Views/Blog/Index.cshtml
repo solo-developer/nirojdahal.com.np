@@ -27,6 +27,7 @@
                                     <th>Title</th>
                                     <th>URL Slug</th>
                                     <th>Description</th>
+                                    <th>Tags</th>
                                     <th>Shown in Menu</th>
                                     <th>Actions</th>
                                 </tr>
@@ -45,6 +46,7 @@
                                             <td class="center">@blog.Title</td>
                                             <td class="center">@blog.Slug</td>
                                             <td class="center" style="width:350px;">@blog.ShortDescription</td>
+                                            <td class="center">@string.Join(",",blog.TagNames)</td>
                                            <td>
                                             @{ 
                                              if(blog.IsPublished){

@@ -16,6 +16,7 @@ namespace Personal.Infrastructure.Context
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
+        public DbSet<BlogTagMap> BlogTagMap { get; set; }
         public DbSet<ContactUs> Contact { get; set; }
         public DbSet<Gallery> Gallery { get; set; }
         public DbSet<LastRead> LeadRead { get; set; }

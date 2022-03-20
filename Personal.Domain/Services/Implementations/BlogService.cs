@@ -20,15 +20,19 @@ namespace Personal.Domain.Services.Implementations
         private readonly IBlogCategoryRepository _blogCategoryRepo;
 
         private readonly IFileHelper _fileHelper;
+        private readonly IBaseRepository<Tag> _tagRepo;
+        private readonly IBaseRepository<BlogTagMap> _blogTagMapRepo;
 
         private const string IMAGE_FOLDER = "uploads/blog-img";
 
-        public BlogService(IBlogRepository blogRepo, IBlogAssembler blogAssembler, IBlogCategoryRepository blogCategoryRepo, IFileHelper fileHelper)
+        public BlogService(IBlogRepository blogRepo, IBlogAssembler blogAssembler, IBlogCategoryRepository blogCategoryRepo, IFileHelper fileHelper, IBaseRepository<Tag> tagRepo, IBaseRepository<BlogTagMap> blogTagMapRepo)
         {
             _blogRepo = blogRepo;
             _blogAssembler = blogAssembler;
             _blogCategoryRepo = blogCategoryRepo;
             _fileHelper = fileHelper;
+            _tagRepo = tagRepo;
+            _blogTagMapRepo = blogTagMapRepo;
         }
 
         public void Delete(long id, string performedBy)
@@ -44,7 +48,7 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public async Task<List<BlogDto>> GetAll(int skip, int? take=null)
+        public async Task<List<BlogDto>> GetAll(int skip, int? take = null)
         {
             var blogs = _blogRepo.GetQueryable().Skip(skip);
             if (take.HasValue)
@@ -100,9 +104,18 @@ namespace Personal.Domain.Services.Implementations
                 var blog = new Entities.Blog();
                 _blogAssembler.Copy(dto, blog);
                 blog.CreatedBy = dto.PerformedBy;
-                blog.CreatedDate = DateTime.Now; 
+                blog.CreatedDate = DateTime.Now;
                 blog.ModifiedBy = dto.PerformedBy;
                 blog.ModifiedDate = DateTime.Now;
+
+                dto.Tags.ForEach(tag =>
+                {
+                    blog.Tags.Add(new BlogTagMap
+                    {
+                        TagId = tag,
+                        Tag = _tagRepo.Find(a => a.Id == tag)
+                    });
+                });
                 _blogRepo.Insert(blog);
 
                 if (!string.IsNullOrEmpty(dto.BannerImage))
@@ -130,10 +143,20 @@ namespace Personal.Domain.Services.Implementations
             using (TransactionScope tx = new TransactionScope())
             {
                 var blog = _blogRepo.GetById(dto.Id) ?? throw new ItemNotFoundException("Blog doesnot exist.");
+                _blogTagMapRepo.DeleteRange(blog.Tags.ToList());
                 _blogAssembler.Copy(dto, blog);
                 blog.ModifiedBy = dto.PerformedBy;
                 blog.ModifiedDate = DateTime.Now;
                 _blogRepo.Update(blog);
+
+                dto.Tags.ForEach(tag =>
+                {
+                    _blogTagMapRepo.Insert(new BlogTagMap
+                    {
+                        Blog = blog,
+                        Tag = _tagRepo.Find(a => a.Id == tag)
+                    });
+                });
 
                 if (!string.IsNullOrEmpty(dto.BannerImage))
                     _fileHelper.moveImageFromTempPathToDestination(dto.BannerImage, IMAGE_FOLDER);
@@ -151,13 +174,14 @@ namespace Personal.Domain.Services.Implementations
             dto.CategoryId = category?.Id;
             dto.CategoryName = category?.Title;
             dto.BannerImage = entity.BannerImage;
+            dto.TagNames = entity.Tags.Select(a => a.Tag.Name).ToList();
             dto.SetSlug(entity.Slug);
             dto.SetDate(entity.CreatedDate);
         }
 
         public async Task<BlogDto> GetBySlug(string slug)
         {
-            var blog =await _blogRepo.FindAsync(a=>a.Slug.ToLower().Trim().Equals(slug.ToLower().Trim())) ?? throw new ItemNotFoundException("Blog not found.");
+            var blog = await _blogRepo.FindAsync(a => a.Slug.ToLower().Trim().Equals(slug.ToLower().Trim())) ?? throw new ItemNotFoundException("Blog not found.");
             var dto = new BlogDto();
             Copy(blog, dto, blog.Category);
             return dto;
