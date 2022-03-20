@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Personal.Domain.Entities
+namespace Personal.Domain.Dto
 {
-    public class WorkExperience : BaseEntity
+    public class WorkExperienceDto
     {
+        public long Id { get; set; }
         [Required]
         [MaxLength(100)]
         public string CompanyName { get; set; }
@@ -17,7 +18,6 @@ namespace Personal.Domain.Entities
         public int? EndYear { get; set; }
 
         [Required]
-        [MaxLength(25000)]
         public string RoleDescription { get; set; }
     }
 }
