@@ -21,7 +21,7 @@ namespace Personal.Domain.Repository.Interface
         Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate);
         Task<List<T>> GetAllAsync();
         IQueryable<T> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties);
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(long id);
         Task<T> UpdateAsync(T t, object key);
         void Delete(T entity);
         void DeleteRange(List<T> entities);

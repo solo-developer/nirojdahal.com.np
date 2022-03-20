@@ -21,6 +21,7 @@ namespace Personal.Infrastructure.Context
         public DbSet<LastRead> LeadRead { get; set; }
         public DbSet<SkillCategory> SkillCategories { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         public DbSet<UserDetail> UserDetails { get; set; }
     }

@@ -1,0 +1,177 @@
+﻿@using niroj.website.Areas.UserManagement.Models
+@model UserSaveViewModel
+
+@{
+    ViewData["Title"] = "User";
+    string actionName = Model.UserId > 0 ? "edit" : "save";
+}
+<div class="col-lg-12">
+    <div class="ibox ">
+        <div class="ibox-title">
+            <h5>User</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="post" action="/user-management/user/@actionName" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group row">
+                            @Html.HiddenFor(a => a.UserId)
+                            <label class="col-lg-3 col-form-label">Full Name</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.FullName, new { placeholder = "Full Name", @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.FullName, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Mobile No.</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.MobileNo, new { placeholder = "Mobile Number", @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.MobileNo, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Email</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.Email, new { placeholder = "Email", @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.Email, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                       @* <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Role</label>
+
+                            <div class="col-lg-9">
+                                @Html.DropDownListFor(a => a.RoleId, new SelectList(ViewBag.roles, "Id", "Name"), "--Select Role--", new { @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.RoleId, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <h4>Address Detail</h4>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">State</label>
+
+                            <div class="col-lg-9">
+                                @Html.DropDownListFor(a => a.Address.State, new SelectList(ViewBag.states, "Key", "Value"), "--Select State--", new { @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.Address.State, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Number</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.Address.HouseNumber, new { placeholder = "Number", @Class = "form-control" ,@type="number"})
+                                @Html.ValidationMessageFor(a => a.Address.HouseNumber, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Street</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.Address.Street, new { placeholder = "Street", @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.Address.Street, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Suburb</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.Address.Suburb, new { placeholder = "Suburb", @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.Address.Suburb, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Post Code</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.Address.PostCode, new { placeholder = "Post Code", @Class = "form-control" ,@type="number",@max="9999",@min="1"})
+                                @Html.ValidationMessageFor(a => a.Address.PostCode, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>*@
+
+
+                        <div class="clearfix"></div>
+                        <h4>Login Credential</h4>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Username</label>
+
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(a => a.UserName, new { placeholder = "Username", @Class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.UserName, null, new { @Class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @{
+                            if (Model.UserId == 0)
+                            {
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Password</label>
+
+                                    <div class="col-lg-9">
+                                        @Html.PasswordFor(a => a.Password, new { placeholder = "Password", @Class = "form-control" })
+                                        @Html.ValidationMessageFor(a => a.Password, null, new { @Class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Confirm Password</label>
+
+                                    <div class="col-lg-9">
+                                        @Html.PasswordFor(a => a.ConfirmPassword, new { placeholder = "Confirm Password", @Class = "form-control" })
+                                        @Html.ValidationMessageFor(a => a.ConfirmPassword, null, new { @Class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div id="preview-normal">
+                            @{
+                                string imgSrc = "";
+                                if (!string.IsNullOrWhiteSpace(Model.ImageName))
+                                {
+                                    imgSrc = "/uploads/user-img/" + Model.ImageName;
+                                }
+                            }
+                            <img class="preview" src="@imgSrc" />
+                        </div>
+                        <input class="file mt-5 " name="Image" type="file" id="btn-image-preview" accept="image/x-png,image/gif,image/jpeg" />
+                    </div>
+
+                    <div class="col-sm-8">
+                        <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><i class="fa fa-save"></i><strong>&nbsp;&nbsp;&nbsp;Save</strong></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+<script src="~/js/UserManagement/User.js" asp-append-version="true"></script>
+}

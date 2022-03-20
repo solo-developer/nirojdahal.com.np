@@ -1,0 +1,116 @@
+﻿@using niroj.website.Areas.UserManagement.Models
+@model List<PermissionTreeViewModel>
+
+@{
+    ViewData["Title"] = "Permission Management";
+    var roles= ViewBag.roles as List<RoleViewModel>;
+}
+
+@section styles{
+     <link href="~/css/hummingbird-treeview.min.css" rel="stylesheet" />
+     <style>
+         ul{
+              list-style-type:none;
+         }
+     </style>
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Role-Permission Management</h5>
+                    <div class="ibox-tools">
+                        <a href="#" class="btn btn-primary role-permission-save-btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;Save</a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                 <div class="row">
+                     <div class="col-md-6">
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                Roles
+                            </div>
+                            <div class="ibox-content role-container" style="min-height:500px;">
+                                @{
+                                    foreach(var role in roles){
+                                        <input type="checkbox" data-id="@role.Name" class="role-checkbox-item" value="@role.Id">
+  <label for="@role.Name"> @role.Name</label><br>
+                                    }
+                                }
+                            </div>
+                        </div>
+                     </div>
+
+                     <div class="col-md-6">
+                          <div class="ibox">
+                            <div class="ibox-title">
+                                Permissions
+                                <div class="ibox-tools">
+                                    <a id="checkAll" data-toggle="tooltip" title="Check All">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a id="uncheckAll" data-toggle="tooltip" title="Uncheck All">
+                                       <i class="fa fa-close"></i>
+                                    </a>
+                                   
+                                     <a id="collapseAll" data-toggle="tooltip" title="Collapse All">
+                                       <i class="fa fa-minus"></i>
+                                    </a>
+                                     <a id="expandAll" data-toggle="tooltip" title="Expand All">
+                                       <i class="fa fa-expand"></i>
+                                    </a>
+                        </div>
+                            </div>
+                            <div class="ibox-content">
+                               <ul id="treeview" class="hummingbird-base">
+                                   @{
+                                       foreach(var permission in Model){
+                                              
+                                                  CreateNode(permission);
+                                       }
+                                       }
+             
+             
+            </ul>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+   void CreateNode(PermissionTreeViewModel child){
+            bool isLeaf=!child.Nodes.Any();
+                                                                string className=isLeaf?"hummingbirdNoParent":"";
+                                                                <ul>
+                                                                     <li>
+                                                  <i class="fa fa-minus"></i>
+                                                      <label>
+                                                          <input data-name="@child.Name" data-type="menu" type="checkbox" data-isHeader="@child.IsHeader" class="@className"/>
+                                                          @child.DisplayName
+                                                      </label>
+                                                      @if(child.Nodes.Any()){
+                                                          foreach(var node in child.Nodes){
+                                                          CreateNode(node);
+                                                          }
+                                                      }
+                                                      </li>
+                                                      </ul>
+   } 
+}
+ 
+@section scripts{
+    <script src="~/lib/hummingbird-treeview.min.js" asp-append-version="true"></script>
+    <script src="~/js/UserManagement/RolePermission.js" asp-append-version="true"></script>
+
+}

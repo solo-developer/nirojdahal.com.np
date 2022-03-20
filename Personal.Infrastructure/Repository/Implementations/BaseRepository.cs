@@ -133,7 +133,7 @@ namespace Personal.Infrastructure.Repository.Implementations
             return _context.Set<T>().Find(id);
         }
 
-        public virtual async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(long id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
@@ -201,16 +201,16 @@ namespace Personal.Infrastructure.Repository.Implementations
             return exist;
         }
 
-        private bool disposed = false;
+        private bool _disposed = false;
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!this._disposed)
             {
                 if (disposing)
                 {
                     _context.Dispose();
                 }
-                this.disposed = true;
+                this._disposed = true;
             }
         }
 

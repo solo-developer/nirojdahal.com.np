@@ -8,7 +8,6 @@ namespace Personal.Domain.Assemblers.Implementations
     {
         public void Copy(UserSaveDto dto, UserDetail entity)
         {
-            entity.Address = dto.Address;
             entity.ImageName = dto.ImageName;
             entity.FullName = dto.FullName;
             entity.MobileNo = dto.MobileNo;
