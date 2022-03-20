@@ -1,0 +1,26 @@
+﻿@model TagDto
+
+<form class="tag-form">
+    @Html.HiddenFor(a => a.Id)
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label">Tag Name</label>
+
+        <div class="col-lg-10">
+            @Html.TextBoxFor(a => a.Name, new { @Class = "form-control tag-name" })
+            @Html.ValidationMessageFor(a=>a.Name,null,new { @Class="text-danger"})
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-offset-2 col-lg-10">
+            @{
+                string buttonText = "Update";
+                if (Model.Id == 0)
+                {
+                    buttonText = "Save";
+                }
+            }
+            <button class="btn btn-sm btn-primary tag-submit-btn" type="button"><i class="fa fa-save"></i><strong>&nbsp;&nbsp;&nbsp;@buttonText</strong></button>
+        </div>
+    </div>
+</form>

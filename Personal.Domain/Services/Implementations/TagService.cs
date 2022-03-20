@@ -68,7 +68,7 @@ namespace Personal.Domain.Services.Implementations
             entity.Name = dto.Name;
         }
 
-        private async Task<bool> IsNameDuplicate(TagDto dto)
+        public async Task<bool> IsNameDuplicate(TagDto dto)
         {
             var tagWithSameName = await _tagRepo.FindAsync(a => a.Name.ToLower().Trim().Equals(dto.Name.ToLower().Trim()));
 

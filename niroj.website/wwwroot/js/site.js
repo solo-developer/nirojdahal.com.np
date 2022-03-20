@@ -8,6 +8,18 @@ function setSidebarLinksActiveBasedOnLinksClicked() {
     $(this).find('.nav-link').addClass('active');
 }
 
+function ShowToastMessage(type, message) {
+    if (type == 'info') {
+        toastr.info(message);
+    }
+    else if (type == 'error') {
+        toastr.error(message);
+    }
+    else {
+        toastr.success(message);
+    }
+}
+
 async function sendMessage() {
     event.preventDefault();
     let captchaResponse = grecaptcha.getResponse();

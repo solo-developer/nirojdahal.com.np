@@ -12,5 +12,6 @@ namespace Personal.Domain.Services.Interface
         Task Delete(long id);
 
         Task<List<TagDto>> GetAllUndeleted();
+        Task<bool> IsNameDuplicate(TagDto dto);
     }
 }
