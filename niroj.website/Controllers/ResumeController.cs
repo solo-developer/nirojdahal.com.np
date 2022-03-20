@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Personal.Domain.Dto;
+using Personal.Domain.Enums;
 using Personal.Domain.Repository.Interface;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace niroj.website.Controllers
 {
@@ -13,9 +18,14 @@ namespace niroj.website.Controllers
         }
 
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //var settings = _settingService.
+            var settings = await _settingRepo.GetAllAsync();
+            ViewBag.settings = settings.Select(a => new SettingDto
+            {
+                Key = (AppSettingKeys)Enum.Parse(typeof(AppSettingKeys), a.Key),
+                Value= a.Value
+            }).ToList();
             return View();
         }
     }
