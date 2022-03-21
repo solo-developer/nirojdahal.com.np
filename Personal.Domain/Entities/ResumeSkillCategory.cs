@@ -12,6 +12,10 @@ namespace Personal.Domain.Entities
         [Required]
         public int Order { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public virtual List<ResumeSkill> Skills { get; set; }=new List<ResumeSkill>();
+
+        public void  Delete()=> IsDeleted = true;
     }
 }
