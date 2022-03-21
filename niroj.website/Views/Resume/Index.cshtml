@@ -1,7 +1,9 @@
 ﻿@using Personal.Domain.Enums;
 @using Personal.Domain.Dto;
+@using Westwind.AspNetCore.Markdown
+@model ResumeIndexViewModel
 @{
-    var settings = ViewBag.settings as List<SettingDto>;
+    var settings = Model.Settings;
 }
 <section class="cta-section theme-bg-light py-5">
     <div class="container text-center single-col-max-width">
@@ -35,11 +37,11 @@
         <div class="resume-intro py-3">
             <div class="row align-items-center">
                 <div class="col-12 col-md-3 col-xl-2 text-center">
-                    <img class="resume-profile-image mb-3 mb-md-0 me-md-5  ms-md-0 rounded mx-auto" src="assets/images/resume-profile.png" alt="image">
+                    <img class="resume-profile-image mb-3 mb-md-0 me-md-5  ms-md-0 rounded mx-auto" src="~/images/my-image.jpg" alt="image">
                 </div>
 
                 <div class="col text-start">
-                    <p class="mb-0">Summarise your career here. <a class="theme-link" href="https://themes.3rdwavemedia.com/resources/sketch-template/resume-sketch-sketch-resume-template-for-software-developers/" target="_blank">You can make a PDF version of your resume using our free Sketch template here</a>. Donec quam felis, ultricies nec, pellentesque eu. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.  Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. </p>
+                    <p class="mb-0">@(settings.FirstOrDefault(a=>a.Key==AppSettingKeys.ResumeSummary)?.Value) </p>
                 </div><!--//col-->
             </div>
         </div><!--//resume-intro-->
@@ -49,112 +51,66 @@
                 <div class="resume-main col-12 col-lg-8 col-xl-9   pe-0   pe-lg-5">
                     <section class="work-section py-3">
                         <h3 class="text-uppercase resume-section-heading mb-4">Work Experiences</h3>
-                        <div class="item mb-3">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Senior Software Engineer</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Google | 2019 - Present</div>
 
-                            </div>
-                            <div class="item-content">
-                                <p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Donec pede justo, fringilla vel. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.</p>
-                                <ul class="resume-list">
-                                    <li>Lorem ipsum dolor sit amet, consectetuer.</li>
-                                    <li>Aenean commodo ligula eget dolor.</li>
-                                    <li>Etiam ultricies nisi vel augue.</li>
-                                </ul>
-                            </div>
-                        </div><!--//item-->
-                        <div class="item mb-3">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Lead Software Developer</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Apple | 2016 - 2019</div>
+                        @foreach (var experience in Model.Experiences)
+                        {
+                            <div class="item mb-3">
+                                <div class="item-heading row align-items-center mb-2">
+                                    <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">@experience.Position</h4>
+                                    <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">@experience.CompanyName | @experience.StartYear - @(experience.EndYear.HasValue? experience.EndYear: "Present")</div>
 
+                                </div>
+                                <div class="item-content">
+                                    @(Markdown.ParseHtmlString(experience.RoleDescription))
+                                </div>
                             </div>
-                            <div class="item-content">
-                                <p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Donec pede justo, fringilla vel.</p>
-                                <ul class="resume-list">
-                                    <li>Lorem ipsum dolor sit amet, consectetuer.</li>
-                                    <li>Aenean commodo ligula eget dolor.</li>
-                                </ul>
-                            </div>
-                        </div><!--//item-->
-                        <div class="item mb-3">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Senior Software Developer</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Dropbox | 2014 - 2016</div>
+                        }
 
-                            </div>
-                            <div class="item-content">
-                                <p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                            </div>
-                        </div><!--//item-->
-                        <div class="item">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Senior Developer</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Uber | 2013 - 2014</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus. </p>
-                            </div>
-                        </div><!--//item-->
-                        <div class="item">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Backend Developer</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Amazon | 2014 - 2016</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                            </div>
-                        </div><!--//item-->
-                        <div class="item">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Frontend Developer</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Startup | 2013 - 2014</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus. </p>
-                            </div>
-                        </div><!--//item-->
-
-                    </section><!--//work-section-->
+                    </section>
 
 
                     <section class="project-section py-3">
                         <h3 class="text-uppercase resume-section-heading mb-4">Projects</h3>
                         <div class="item mb-3">
                             <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Project Lorem Ipsum</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Open Source</div>
+                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Crytal Bangshawali</h4>
+                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
 
                             </div>
                             <div class="item-content">
-                                <p>You can use this section for your side projects. You can <a href="resume.html#" class="theme-link">provide a project link here</a> as well. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                                <p>Developed a project for Crystal Solution alone. Purpose of this software was to manage hierarchial data of generations of persons. Took full responsiblity of the project and completed it within the deadline to meet the client needs.</p>
+                            </div>
+                        </div><!--//item-->
+                        
+                        <div class="item mb-3">
+                            <div class="item-heading row align-items-center mb-2">
+                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Crytal Cafe Solution</h4>
+                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
 
+                            </div>
+                            <div class="item-content">
+                                <p>Added features and worked on improvement of existing system. Developed couple of modules and libraries for the system.</p>
+                            </div>
+                        </div><!--//item-->
+                        <div class="item">
+                            <div class="item-heading row align-items-center mb-2">
+                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">XmartCredit</h4>
+                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
+
+                            </div>
+                            <div class="item-content">
+                                <p>A complete end-to-end Credit automation software used in banks and financial institutions. Worked as Senior developer for more than 2 years and is working as Team Lead of the project currently.</p>
 
                             </div>
                         </div><!--//item-->
                         <div class="item">
                             <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Project Sed Fringilla</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Open Source</div>
+                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Raindrop ERP </h4>
+                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
 
                             </div>
                             <div class="item-content">
-                                <p>You can use this section for your side projects. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-
-                            </div>
-                        </div><!--//item-->
-                        <div class="item">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Project Praesent </h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Open Source</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>You can use this section for your side projects. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
+                                <p>Mini- ERP targeting all kinds of mid to large level instituations. Developed the software working as Senior software developer at Raindrop Inc.</p>
 
                             </div>
                         </div><!--//item-->
@@ -163,58 +119,37 @@
                 <aside class="resume-aside col-12 col-lg-4 col-xl-3 px-lg-4 pb-lg-4">
                     <section class="skills-section py-3">
                         <h3 class="text-uppercase resume-section-heading mb-4">Skills</h3>
-                        <div class="item">
-                            <h4 class="item-title">Technical</h4>
-                            <ul class="list-unstyled resume-skills-list">
-                                <li class="mb-2">JavaScript/Angular/React/Vue</li>
-                                <li class="mb-2">Python/Ruby/PHP
-                                <li>
-                                <li class="mb-2">Node.js/ASP.NET</li>
-                                <li class="mb-2">PostgreSQL/MySQL</li>
-                                <li class="mb-2">Object-oriented design</li>
-                                <li class="mb-2">Design and implement database structures</li>
-                                <li>Lead and deliver complex software systems</li>
-                            </ul>
-                        </div><!--//item-->
-                        <div class="item">
-                            <h4 class="item-title">Professional</h4>
-                            <ul class="list-unstyled resume-skills-list">
-                                <li class="mb-2">Effective communication</li>
-                                <li class="mb-2">Team player
-                                <li>
-                                <li class="mb-2">Strong problem solver</li>
-                                <li>Good time management</li>
-                            </ul>
-                        </div><!--//item-->
-                    </section><!--//skills-section-->
+
+                        @foreach (var category in Model.SkillCategories)
+                        {
+                            <div class="item">
+                                <h4 class="item-title">@category.Name</h4>
+                                <ul class="list-unstyled resume-skills-list">
+                                    @foreach (var skill in category.Skills)
+                                    {
+                                        @:
+                                        <li class="mb-2">@skill</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </section>
                     <section class="education-section py-3">
                         <h3 class="text-uppercase resume-section-heading mb-4">Education</h3>
                         <ul class="list-unstyled resume-education-list">
                             <li class="mb-3">
-                                <div class="resume-degree font-weight-bold">MSc in Computer Science</div>
-                                <div class="resume-degree-org text-muted">University College London</div>
-                                <div class="resume-degree-time text-muted">2010 - 2011</div>
+                                <div class="resume-degree font-weight-bold">BScIT</div>
+                                <div class="resume-degree-org text-muted">Sikkim Manipal University</div>
+                                <div class="resume-degree-time text-muted">2014 - 2017</div>
                             </li>
                             <li>
-                                <div class="resume-degree font-weight-bold">BSc Maths and Physics</div>
-                                <div class="resume-degree-org text-muted">Imperial College London</div>
-                                <div class="resume-degree-time text-muted">2007 - 2010</div>
+                                <div class="resume-degree font-weight-bold">Intermediate In Science</div>
+                                <div class="resume-degree-org text-muted">HSEB</div>
+                                <div class="resume-degree-time text-muted">2011 - 2013</div>
                             </li>
                         </ul>
                     </section><!--//education-section-->
-                    <section class="education-section py-3">
-                        <h3 class="text-uppercase resume-section-heading mb-4">Awards</h3>
-                        <ul class="list-unstyled resume-awards-list">
-                            <li class="mb-3">
-                                <div class="font-weight-bold">Award Lorem Ipsum</div>
-                                <div class="text-muted">Microsoft lorem ipsum (2019)</div>
-                            </li>
-                            <li>
-                                <div class="font-weight-bold">Award Donec Sodales</div>
-                                <div class="text-muted">Oracle Aenean (2017)</div>
-                            </li>
-                        </ul>
-                    </section><!--//education-section-->
+                   
                     <section class="skills-section py-3">
                         <h3 class="text-uppercase resume-section-heading mb-4">Languages</h3>
                         <ul class="list-unstyled resume-lang-list">
@@ -233,9 +168,9 @@
                         </ul>
                     </section>
 
-                </aside><!--//resume-aside-->
-            </div><!--//row-->
-        </div><!--//resume-body-->
+                </aside>
+            </div>
+        </div>
         <hr>
         <div class="resume-footer text-center">
             <ul class="resume-social-list list-inline mx-auto mb-0 d-inline-block text-muted">

@@ -17,7 +17,7 @@ namespace Personal.Domain.Entities
         [Required, MaxLength(100)]
         public string Key { get; set; }
 
-        [Required, MaxLength(300)]
+        [Required, MaxLength(5000)]
         public string Value { get; set; }
     }
 }

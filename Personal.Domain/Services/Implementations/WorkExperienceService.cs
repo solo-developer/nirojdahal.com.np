@@ -4,6 +4,7 @@ using Personal.Domain.Exceptions;
 using Personal.Domain.Repository.Interface;
 using Personal.Domain.Services.Interface;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Personal.Domain.Services.Implementations
@@ -28,7 +29,7 @@ namespace Personal.Domain.Services.Implementations
             var data = await _repo.GetAllAsync();
 
             var response = new List<WorkExperienceDto>();
-            data.ForEach(entity =>
+            data.OrderByDescending(a=>a.StartYear).ThenBy(a=>a.EndYear).ToList().ForEach(entity =>
             {
                 var dto = new WorkExperienceDto();
                 Copy(dto,entity);
