@@ -1,0 +1,11 @@
+[
+  {
+    "outputFileName": "wwwroot/css/common.min.css",
+    "inputFiles": [
+      "wwwroot/css/theme-1.css",
+      "wwwroot/css/site.css",
+      "wwwroot/plugins/tiny-slider/tiny-slider.css"
+    ],
+    "sourceMap": true
+  }
+]
