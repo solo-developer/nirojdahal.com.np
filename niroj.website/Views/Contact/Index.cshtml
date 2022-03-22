@@ -1,0 +1,41 @@
+﻿@using Personal.Domain.Enums
+@model List<Personal.Domain.Dto.SettingDto>
+
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center single-col-max-width">
+        <h2 class="heading">Contact</h2>
+        <div class="intro">
+            <p>Interested in hiring me for your project or just want to say hi? You can fill in the contact form below or send me an email to <a class="text-link" href="mailto:#">@(Model.FirstOrDefault(a=>a.Key== AppSettingKeys.Email)?.Value)</a></p>
+            <p>Want to get connected? Follow me on the social channels below.</p>
+            <ul class="list-inline mb-0">
+                <li class="list-inline-item mb-3"><a class="twitter" href="https://twitter.com/NirojDahal14"><i class="fab fa-twitter fa-fw fa-lg"></i></a></li>
+
+                <li class="list-inline-item mb-3"><a class="linkedin" href="https://www.linkedin.com/in/niroj-dahal-1bb3b4172/"><i class="fab fa-linkedin-in fa-fw fa-lg"></i></a></li>
+                <li class="list-inline-item mb-3"><a class="github" href="https://github.com/solo-developer"><i class="fab fa-github-alt fa-fw fa-lg"></i></a></li>
+                <li class="list-inline-item"><a class="instagram" href="https://www.instagram.com/neeroz_dahal/?hl=en"><i class="fab fa-instagram fa-fw fa-lg"></i></a></li>
+                
+                <li class="list-inline-item mb-3"><a class="medium" href="https://medium.com/@@developer.niroj"><i class="fab fa-medium-m fa-fw fa-lg"></i></a></li>
+            
+                <li class="list-inline-item mb-3"><a class="facebook" href="https://www.facebook.com/developer.niroj"><i class="fab fa-facebook-f fa-fw fa-lg"></i></a></li>
+
+
+            </ul><!--//social-list-->
+
+        </div><!--//container-->
+</section>
+<section class="contact-section px-3 py-5 p-md-5">
+    <div class="container">
+       @{
+            await Html.RenderPartialAsync("~/Views/Contact/_ContactForm.cshtml");
+        }
+    </div>
+</section>
+
+@section scripts{
+<script src="~/js/dashboard.js" asp-append-version="true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js" integrity="sha512-DedNBWPF0hLGUPNbCYfj8qjlEnNE92Fqn7xd3Sscfu7ipy7Zu33unHdugqRD3c4Vj7/yLv+slqZhMls/4Oc7Zg==" crossorigin="anonymous"></script>
+
+
+<recaptcha-script />
+}

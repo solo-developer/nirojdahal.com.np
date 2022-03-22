@@ -2,7 +2,9 @@
 using niroj.website.Helpers;
 using Personal.Domain.Configs;
 using Personal.Domain.Dto;
+using Personal.Domain.Enums;
 using Personal.Domain.Exceptions;
+using Personal.Domain.Repository.Interface;
 using Personal.Domain.Services.Interface;
 using System;
 using System.Linq;
@@ -15,11 +17,26 @@ namespace niroj.website.Controllers
     {
         private readonly IContactUsService _contactUsService;
         private readonly RecaptchaConfiguration _recaptchaConfiguration;
+        private readonly ISettingRepository _settingRepo;
 
-        public ContactController(IContactUsService contactUsService, RecaptchaConfiguration recaptchaConfig)
+        public ContactController(IContactUsService contactUsService, RecaptchaConfiguration recaptchaConfig, ISettingRepository settingRepo)
         {
             _contactUsService = contactUsService;
             _recaptchaConfiguration = recaptchaConfig;
+            _settingRepo = settingRepo;
+        }
+
+        [Route("")]
+        public async Task<IActionResult> Index()
+        {
+            var entities = await _settingRepo.GetAllAsync();
+            var settings = entities.Select(a => new SettingDto
+            {
+                Key = (AppSettingKeys)Enum.Parse(typeof(AppSettingKeys), a.Key),
+                Value = a.Value
+            }).ToList();
+
+            return View(settings);
         }
 
         [HttpPost]
