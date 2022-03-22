@@ -23,6 +23,7 @@ namespace Personal.Infrastructure.Context
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LastRead> LeadRead { get; set; }
+        public DbSet<Newsletter> NewsLetters { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ResumeSkillCategory> ResumeSkillCategories { get; set; }
         public DbSet<ResumeSkill> ResumeSkills { get; set; }

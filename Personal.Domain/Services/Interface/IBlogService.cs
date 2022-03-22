@@ -16,5 +16,7 @@ namespace Personal.Domain.Services.Interface
 
         BlogDto GetById(long id);
         Task<BlogDto> GetBySlug(string slug);
+
+        Task SubscribeNewsletter(NewsletterSubscriptionDto dto);
     }
 }

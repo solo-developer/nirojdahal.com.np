@@ -22,10 +22,11 @@ namespace Personal.Domain.Services.Implementations
         private readonly IFileHelper _fileHelper;
         private readonly IBaseRepository<Tag> _tagRepo;
         private readonly IBaseRepository<BlogTagMap> _blogTagMapRepo;
+        private readonly IBaseRepository<Newsletter> _newsLetterRepo;
 
         private const string IMAGE_FOLDER = "uploads/blog-img";
 
-        public BlogService(IBlogRepository blogRepo, IBlogAssembler blogAssembler, IBlogCategoryRepository blogCategoryRepo, IFileHelper fileHelper, IBaseRepository<Tag> tagRepo, IBaseRepository<BlogTagMap> blogTagMapRepo)
+        public BlogService(IBlogRepository blogRepo, IBlogAssembler blogAssembler, IBlogCategoryRepository blogCategoryRepo, IFileHelper fileHelper, IBaseRepository<Tag> tagRepo, IBaseRepository<BlogTagMap> blogTagMapRepo, IBaseRepository<Newsletter> newsLetterRepo)
         {
             _blogRepo = blogRepo;
             _blogAssembler = blogAssembler;
@@ -33,6 +34,7 @@ namespace Personal.Domain.Services.Implementations
             _fileHelper = fileHelper;
             _tagRepo = tagRepo;
             _blogTagMapRepo = blogTagMapRepo;
+            _newsLetterRepo = newsLetterRepo;
         }
 
         public void Delete(long id, string performedBy)
@@ -185,6 +187,22 @@ namespace Personal.Domain.Services.Implementations
             var dto = new BlogDto();
             Copy(blog, dto, blog.Category);
             return dto;
+        }
+
+        public async Task SubscribeNewsletter(NewsletterSubscriptionDto dto)
+        {
+            var newsletterWithSameEmail = await _newsLetterRepo.FindAsync(a => a.Email.ToLower().Trim().Equals(dto.Email.ToLower().Trim()));
+
+            if (newsletterWithSameEmail != null)
+                throw new DuplicateItemException("User has already subscribed the newsletter.");
+
+            var entity = new Newsletter()
+            {
+                Email = dto.Email,
+                SubscribedDate = DateTime.Now
+            };
+
+            await _newsLetterRepo.InsertAsync(entity);
         }
     }
 }

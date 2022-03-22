@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     $('#navigation').on('click', '.nav-item', setSidebarLinksActiveBasedOnLinksClicked);
     $('#btn-contact-submit').on('click', sendMessage);
+    $('#subscribe').on('click', subscribeToNewsletter);
 });
 
 function setSidebarLinksActiveBasedOnLinksClicked() {
@@ -17,6 +18,37 @@ function ShowToastMessage(type, message) {
     }
     else {
         toastr.success(message);
+    }
+}
+
+async function subscribeToNewsletter() {
+    event.preventDefault();
+    let email = $('#email').val();
+    if (!email) {
+        toastr.info('Please enter your email.', 'Information!!');
+        return;
+    }
+
+    $(this).prop('disabled', 'true');
+    let form = $(this).closest('form');
+    let data = {
+        Email: email
+    };
+    const response = await fetch(`/blogs/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+    try {
+        var jsonData = await response.json();
+        if (isErrorResponse(jsonData)) {
+            toastr.error(JSON.parse(jsonData).error)
+        }
+        else {
+            toastr.success('Newsletter subscribed successfully.', 'Success!!')
+        }
+    } catch (e) {
+        toastr.error('Failed to subscribe Newsletter. Please try again later.', 'Error!!');
     }
 }
 
@@ -43,7 +75,7 @@ async function sendMessage() {
     try {
         var jsonData = await response.json();
         if (isErrorResponse(jsonData)) {
-            toastr.error(jsonData.error, 'Error!!')
+            toastr.error(JSON.parse(jsonData).error, 'Error!!')
         }
         else {
             toastr.success('Message Sent Successfully.', 'Success!!')
@@ -76,7 +108,8 @@ function clearFormValues(form) {
 }
 
 function isErrorResponse(response) {
-    if (response.error) {
+    window.response = response;
+    if (JSON.parse(response).error) {
         return true;
     }
     return false;
