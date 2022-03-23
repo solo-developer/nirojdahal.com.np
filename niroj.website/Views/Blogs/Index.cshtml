@@ -1,6 +1,10 @@
-﻿@model List<Personal.Domain.Dto.BlogDto>
+﻿@model Personal.Domain.Dto.PagedResultDto 
 @using Westwind.AspNetCore.Markdown
 @using Humanizer
+
+@{
+    var blogs = Model.Data as List<Personal.Domain.Dto.BlogDto>;
+}
 <section class="cta-section theme-bg-light py-5">
     <div class="container text-center">
         <h2 class="heading">A Blog About Software Development</h2>
@@ -21,7 +25,7 @@
 <section class="blog-list px-3 py-5 p-md-5">
     <div class="container">
         <div class="row">
-            @foreach (var blog in Model)
+            @foreach (var blog in blogs)
             {
                 var content = Markdown.ParseHtmlString(blog.Content);
                 var trimmedContent = content.Value.Substring(0, 300);
@@ -47,8 +51,41 @@
 
 
         <nav class="blog-nav nav nav-justified my-5">
-            <a class="nav-link-prev nav-item nav-link d-none rounded-left" href="blog-home.html#">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
-            <a class="nav-link-next nav-item nav-link rounded" href="blog-home.html#">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+            <paging total-records="@Model.TotalRecords"
+                    page-no="@Model.CurrentPageNumber"
+                    page-size="6"
+                    show-prev-next="true"
+                    show-total-pages="true"
+                    show-total-records="true"
+                    show-first-numbered-page="true"
+                    show-last-numbered-page="true"
+                    gap-size="2"
+                    max-displayed-pages="10"
+                    query-string-key-page-no="pageNo"
+                    query-string-key-page-size="take"
+                    page-size-nav-block-size="10"
+                    page-size-nav-max-items="3"
+                    page-size-nav-on-change="get"
+                    class="row center"
+                    class-paging-control-div="col"
+                    class-info-div="col"
+                    class-page-size-div="col"
+                    class-paging-control="pagination"
+                    class-active-page="disabled"
+                    class-disabled-jumping-button="disabled"
+                    class-total-pages="badge badge-secondary"
+                    class-total-records="badge badge-info"
+                    text-total-pages="pages"
+                    text-total-records="records"
+                    text-first="&laquo;"
+                    text-last="&raquo;"
+                    text-previous="&lsaquo;"
+                    text-next="&rsaquo;"
+                    sr-text-first="First"
+                    sr-text-last="Last"
+                    sr-text-previous="Previous"
+                    sr-text-next="Next">
+            </paging>
         </nav>
 
     </div>

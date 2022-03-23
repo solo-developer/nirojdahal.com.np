@@ -21,9 +21,10 @@ namespace niroj.website.Controllers
 
         [Route("index")]
         [Route("")]
-        public async Task<IActionResult> Index(int? skip = null, int? take = null)
+        public async Task<IActionResult> Index(int? pageNo = 1, int? take = 6)
         {
-            var blogs = await _blogService.GetAll(skip.HasValue ? skip.Value : 0, take);
+            int skip = ((int)(pageNo.Value - 1)) * take.Value;
+            var blogs = await _blogService.GetAll(skip, take);
             return View(blogs);
         }
 

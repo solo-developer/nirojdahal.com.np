@@ -50,9 +50,15 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public async Task<List<BlogDto>> GetAll(int skip, int? take = null)
+        public async Task<PagedResultDto> GetAll(int skip, int? take = null)
         {
-            var blogs = _blogRepo.GetQueryable().Skip(skip);
+            PagedResultDto result = new PagedResultDto();
+            var blogs = _blogRepo.GetQueryable().Where(a => a.IsPublished);
+
+            result.TotalRecords = blogs.Count();
+            result.Take = 6;
+            result.Skip = skip;
+            blogs = blogs.Skip(skip);
             if (take.HasValue)
                 blogs = blogs.Take(take.Value);
             blogs = blogs.OrderByDescending(a => a.CreatedDate).AsQueryable();
@@ -74,7 +80,8 @@ namespace Personal.Domain.Services.Implementations
                 Copy(blog, dto, category);
                 response.Add(dto);
             }
-            return response;
+            result.Data = response;
+            return result;
         }
 
         public BlogDto GetById(long id)

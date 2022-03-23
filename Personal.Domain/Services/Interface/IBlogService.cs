@@ -12,7 +12,7 @@ namespace Personal.Domain.Services.Interface
         void Publish(long id,string performedBy);
         void Unpublish(long id, string performedBy);
 
-        Task<List<BlogDto>> GetAll(int skip,int? take=null);
+        Task<PagedResultDto> GetAll(int skip,int? take=null);
 
         BlogDto GetById(long id);
         Task<BlogDto> GetBySlug(string slug);
