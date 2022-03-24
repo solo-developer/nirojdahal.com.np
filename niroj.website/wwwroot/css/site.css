@@ -21,3 +21,14 @@
 .center{
     margin:auto;
 }
+
+.coming-soon {
+    margin: 0;
+    padding: 0;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50pt;
+    font-family: 'Slabo 27px', serif;
+}

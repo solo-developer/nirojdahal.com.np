@@ -1,4 +1,4 @@
-﻿@model Personal.Domain.Dto.PagedResultDto 
+﻿@model Personal.Domain.Dto.PagedResultDto
 @using Westwind.AspNetCore.Markdown
 @using Humanizer
 
@@ -24,34 +24,34 @@
 </section>
 <section class="blog-list px-3 py-5 p-md-5">
     <div class="container">
-        <div class="row">
-            @foreach (var blog in blogs)
-            {
-                var content = Markdown.ParseHtmlString(blog.Content);
-                var trimmedContent = content.Value.Substring(0, 300);
-                var lastIndexOfFullStop = trimmedContent.LastIndexOf(".");
-                trimmedContent = trimmedContent.Substring(0, lastIndexOfFullStop + 1);
+        @if (blogs.Any())
+        {
+            <div class="row">
+                @foreach (var blog in blogs)
+                {
+                    var content = Markdown.ParseHtmlString(blog.Content);
+                    var trimmedContent = content.Value.Substring(0, 300);
+                    var lastIndexOfFullStop = trimmedContent.LastIndexOf(".");
+                    trimmedContent = trimmedContent.Substring(0, lastIndexOfFullStop + 1);
 
-                <div class="col-md-4 mb-3">
-                    <div class="card blog-post-card">
-                        <img class="card-img-top" src="~/uploads/blog-img/@blog.BannerImage" alt="@blog.BannerImage">
-                        <div class="card-body">
-                            <h5 class="card-title"><a class="theme-link" href="/blogs/@blog.Slug">@blog.Title</a></h5>
-                            <p class="card-text">@Html.Raw(trimmedContent)</p>
-                            <p class="mb-0"><a class="text-link" href="/blogs/@blog.Slug">Read more &rarr;</a></p>
+                    <div class="col-md-4 mb-3">
+                        <div class="card blog-post-card">
+                            <img class="card-img-top" src="~/uploads/blog-img/@blog.BannerImage" alt="@blog.BannerImage">
+                            <div class="card-body">
+                                <h5 class="card-title"><a class="theme-link" href="/blogs/@blog.Slug">@blog.Title</a></h5>
+                                <p class="card-text">@Html.Raw(trimmedContent)</p>
+                                <p class="mb-0"><a class="text-link" href="/blogs/@blog.Slug">Read more &rarr;</a></p>
 
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Published @blog.CreatedDate.Humanize()</small>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Published @blog.CreatedDate.Humanize()</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-
-
-        <nav class="blog-nav nav nav-justified my-5">
-            <paging total-records="@Model.TotalRecords"
+                }
+            </div>
+            <nav class="blog-nav nav nav-justified my-5">
+                <paging total-records="@Model.TotalRecords"
                     page-no="@Model.CurrentPageNumber"
                     page-size="6"
                     show-page-size-nav="false"
@@ -86,8 +86,15 @@
                     sr-text-last="Last"
                     sr-text-previous="Previous"
                     sr-text-next="Next">
-            </paging>
-        </nav>
+                </paging>
+            </nav>
 
+        }
+        else
+        {
+            <div class="coming-soon">
+                <span>Coming soon</span>
+            </div>
+        }
     </div>
 </section>
