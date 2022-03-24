@@ -4,6 +4,7 @@ using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Services.Interface;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace niroj.website.Controllers
         public async Task<IActionResult> GetBlogsForDashboard()
         {
             var blogs = await _blogService.GetAll(0, 3);
-            return PartialView("~/Views/Blogs/_blogDashboardList.cshtml", blogs);
+            return PartialView("~/Views/Blogs/_blogDashboardList.cshtml", blogs.Data as List<BlogDto>);
         }
 
         [HttpPost]

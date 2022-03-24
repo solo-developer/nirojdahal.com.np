@@ -41,7 +41,7 @@ namespace niroj.website.Areas.Admin.Controllers
             try
             {
                 var datas = await _blogService.GetAll(0);
-                return View(datas);
+                return View(datas.Data as List<BlogDto>);
             }
             catch (CustomException ex)
             {
