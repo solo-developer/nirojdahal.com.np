@@ -25,7 +25,7 @@ namespace niroj.website.Controllers
         public async Task<IActionResult> Index(int? pageNo = 1, int? take = 6)
         {
             int skip = ((int)(pageNo.Value - 1)) * take.Value;
-            var blogs = await _blogService.GetAll(skip, take);
+            var blogs = await _blogService.GetAll(skip, take,true);
             return View(blogs);
         }
 
@@ -39,7 +39,7 @@ namespace niroj.website.Controllers
         [Route("dashboard-section")]
         public async Task<IActionResult> GetBlogsForDashboard()
         {
-            var blogs = await _blogService.GetAll(0, 3);
+            var blogs = await _blogService.GetAll(0, 3,true);
             return PartialView("~/Views/Blogs/_blogDashboardList.cshtml", blogs.Data as List<BlogDto>);
         }
 

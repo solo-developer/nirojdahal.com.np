@@ -50,10 +50,12 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public async Task<PagedResultDto> GetAll(int skip, int? take = null)
+        public async Task<PagedResultDto> GetAll(int skip, int? take = null,bool onlyPublished=false)
         {
             PagedResultDto result = new PagedResultDto();
-            var blogs = _blogRepo.GetQueryable().Where(a => a.IsPublished);
+            var blogs = _blogRepo.GetQueryable().Where(a=> !a.IsDeleted);
+            if (onlyPublished)
+                blogs = blogs.Where(a => a.IsPublished);
 
             result.TotalRecords = blogs.Count();
             result.Take = 6;
