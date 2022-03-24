@@ -50,7 +50,7 @@ namespace Personal.Domain.Services.Implementations
                 tx.Complete();
             }
             string emailContent = $"A User with email {dto.Email} is trying to reach you. <br/> <strong> Date : </strong> {DateTime.Now} <br/> <strong> Comment : </strong> {dto.Comment}";
-            _emailSenderService.SendEmail(new EmailMessageDto("Someone Is Trying to Reach You.", emailContent));
+            _emailSenderService.SendEmail(new EmailMessageDto("Someone Is Trying to Reach You.", emailContent, new string[] {"developer.niroj@gmail.com"}));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Personal.Domain.Services.Interface
         void Save(BlogDto dto);
         void Update(BlogDto dto);
         void Delete(long id,string performedBy);
-        void Publish(long id,string performedBy);
+        Task Publish(long id,string performedBy);
         void Unpublish(long id, string performedBy);
 
         Task<PagedResultDto> GetAll(int skip,int? take=null, bool onlyPublished = false);

@@ -1,6 +1,7 @@
 ﻿using Personal.Domain.Assemblers.Interface;
 using Personal.Domain.Dto;
 using Personal.Domain.Entities;
+using Personal.Domain.Enums;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Helpers;
 using Personal.Domain.Repository.Interface;
@@ -23,10 +24,12 @@ namespace Personal.Domain.Services.Implementations
         private readonly IBaseRepository<Tag> _tagRepo;
         private readonly IBaseRepository<BlogTagMap> _blogTagMapRepo;
         private readonly IBaseRepository<Newsletter> _newsLetterRepo;
+        private readonly IBaseRepository<AppSetting> _appsettingRepo;
+        private readonly IEmailSenderService _emailSenderService;
 
         private const string IMAGE_FOLDER = "uploads/blog-img";
 
-        public BlogService(IBlogRepository blogRepo, IBlogAssembler blogAssembler, IBlogCategoryRepository blogCategoryRepo, IFileHelper fileHelper, IBaseRepository<Tag> tagRepo, IBaseRepository<BlogTagMap> blogTagMapRepo, IBaseRepository<Newsletter> newsLetterRepo)
+        public BlogService(IBlogRepository blogRepo, IBlogAssembler blogAssembler, IBlogCategoryRepository blogCategoryRepo, IFileHelper fileHelper, IBaseRepository<Tag> tagRepo, IBaseRepository<BlogTagMap> blogTagMapRepo, IBaseRepository<Newsletter> newsLetterRepo, IEmailSenderService emailSenderService, IBaseRepository<AppSetting> appsettingRepo)
         {
             _blogRepo = blogRepo;
             _blogAssembler = blogAssembler;
@@ -35,6 +38,8 @@ namespace Personal.Domain.Services.Implementations
             _tagRepo = tagRepo;
             _blogTagMapRepo = blogTagMapRepo;
             _newsLetterRepo = newsLetterRepo;
+            _emailSenderService = emailSenderService;
+            _appsettingRepo = appsettingRepo;
         }
 
         public void Delete(long id, string performedBy)
@@ -50,10 +55,10 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public async Task<PagedResultDto> GetAll(int skip, int? take = null,bool onlyPublished=false)
+        public async Task<PagedResultDto> GetAll(int skip, int? take = null, bool onlyPublished = false)
         {
             PagedResultDto result = new PagedResultDto();
-            var blogs = _blogRepo.GetQueryable().Where(a=> !a.IsDeleted);
+            var blogs = _blogRepo.GetQueryable().Where(a => !a.IsDeleted);
             if (onlyPublished)
                 blogs = blogs.Where(a => a.IsPublished);
 
@@ -135,7 +140,7 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public void Publish(long id, string performedBy)
+        public async Task Publish(long id, string performedBy)
         {
             using (TransactionScope tx = new TransactionScope())
             {
@@ -144,7 +149,14 @@ namespace Personal.Domain.Services.Implementations
                 blog.ShowInView(performedBy);
 
                 _blogRepo.Update(blog);
-
+               
+                var subscribers = _newsLetterRepo.GetQueryableWithNoTracking().Select(a => a.Email).Distinct();
+                if (subscribers.Any())
+                {
+                    var websiteUrl = _appsettingRepo.GetQueryable().SingleOrDefault(a => a.Key == AppSettingKeys.Website.ToString())?.Value;
+                    string emailContent = $"<p>There is a new blog post from <strong>Niroj Dahal</strong> you might be interested in.</p> <a href='{websiteUrl}blogs/{blog.Slug}'>{blog.Slug}</a>";
+                    _emailSenderService.SendEmail(new EmailMessageDto(blog.Title, emailContent, subscribers.ToArray()));
+                }
                 tx.Complete();
             }
         }

@@ -9,15 +9,21 @@ namespace Personal.Domain.Dto
         {
 
         }
-        public List<MailboxAddress> To { get; set; }
-        public string Subject { get; set; }
-        public string Content { get; set; }
-        public EmailMessageDto(string subject, string content)
+        public EmailMessageDto(string subject, string content, string[] destinationAddresses)
         {
             To = new List<MailboxAddress>();
-            To.Add(new MailboxAddress("developer.niroj@gmail.com"));
+            for (var i = 0; i < destinationAddresses.Length; i++)
+            {
+                var address = destinationAddresses[i];
+                To.Add(new MailboxAddress(address));
+            }
+
             Subject = subject;
             Content = content;
         }
+        public List<MailboxAddress> To { get; set; }
+        public string Subject { get; set; }
+        public string Content { get; set; }
+
     }
 }
