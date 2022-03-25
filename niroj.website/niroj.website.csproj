@@ -27,6 +27,9 @@
     <PackageReference Include="Octokit.Reactive" Version="0.47.0" />
     <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.2" />
     <PackageReference Include="Scrutor" Version="3.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
 
@@ -38,6 +41,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\UserManagement\Data\" />
+    <Folder Include="Logs\" />
     <Folder Include="wwwroot\images\blog\" />
     <Folder Include="wwwroot\images\clients\" />
     <Folder Include="wwwroot\images\project\" />

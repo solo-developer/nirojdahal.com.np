@@ -156,3 +156,4 @@ FakesAssemblies/
 Application.myapp
 .vs
 ServiceResolvers/
+Logs/
