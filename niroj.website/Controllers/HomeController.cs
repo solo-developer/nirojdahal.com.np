@@ -18,7 +18,6 @@ namespace niroj.website.Controllers
 
         public async Task<IActionResult> Index()
         {
-            throw new InvalidOperationException();
             var appSettings = await _appSettingRepo.GetAllAsync();
             Dictionary<string, string> responseData = new Dictionary<string, string>();
             appSettings.ForEach(appSetting => responseData.Add(appSetting.Key, appSetting.Value));
