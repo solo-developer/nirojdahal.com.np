@@ -20,8 +20,22 @@ namespace Personal.Domain.Services.Implementations
 
         public void SendEmail(EmailMessageDto message)
         {
-            var emailMessage = CreateEmailMessage(message);
-            Send(emailMessage);
+            if (message.SendMailIndividually)
+            {
+                foreach (var mailAddress in message.To)
+                {
+                    message.To = new System.Collections.Generic.List<MailboxAddress>();
+                    message.To.Add(mailAddress);
+                    var emailMessage = CreateEmailMessage(message);
+                    Send(emailMessage);
+                }
+            }
+            else
+            {
+                var emailMessage = CreateEmailMessage(message);
+                Send(emailMessage);
+            }
+
         }
 
         private MimeMessage CreateEmailMessage(EmailMessageDto message)

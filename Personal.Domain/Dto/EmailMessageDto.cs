@@ -25,5 +25,7 @@ namespace Personal.Domain.Dto
         public string Subject { get; set; }
         public string Content { get; set; }
 
+        public bool SendMailIndividually { get; set; } = true;
+
     }
 }
