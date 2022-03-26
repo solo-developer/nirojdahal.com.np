@@ -26,6 +26,7 @@
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Title</th>
+                                    <th>Url</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Slider Image</th>
@@ -48,6 +49,7 @@
                                                 <img alt="@image.ImageName" class="rounded-circle grid-img" src="~/uploads/gallery-img/@image.ImageName" />
                                             </td>
                                             <td class="center">@image.Title</td>
+                                            <td class="center">uploads/gallery-img/@image.ImageName</td>
                                             <td class="center">@image.Description</td>
                                             <td class="center">@(image.IsEnabled?"Enabled":"Disabled")</td>
                                             <td>
