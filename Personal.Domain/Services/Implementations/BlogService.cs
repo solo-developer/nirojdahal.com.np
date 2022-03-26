@@ -198,6 +198,7 @@ namespace Personal.Domain.Services.Implementations
             dto.CategoryName = category?.Title;
             dto.BannerImage = entity.BannerImage;
             dto.TagNames = entity.Tags.Select(a => a.Tag.Name).ToList();
+            dto.Tags = entity.Tags.Select(a => a.Tag.Id).ToList();
             dto.SetSlug(entity.Slug);
             dto.SetDate(entity.CreatedDate);
         }
