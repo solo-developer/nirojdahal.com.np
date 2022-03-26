@@ -68,7 +68,7 @@ namespace niroj.website.Areas.Admin.Controllers
                     GalleryDto galleryDto = new GalleryDto();
                     galleryDto.Title = model.Title;
                     string tempPath = Path.GetTempPath();
-                    galleryDto.ImageName = await _fileHelper.saveImageAndGetFileName(model.File, tempPath, model.Title);
+                    galleryDto.ImageName = await _fileHelper.SaveImageAndGetFileName(model.File, tempPath, model.Title);
 
                     galleryDto.Description = model.Description;
                     galleryDto.IsEnabled = model.IsEnabled;
@@ -130,7 +130,7 @@ namespace niroj.website.Areas.Admin.Controllers
                     if (model.File != null)
                     {
                         var tempPath = Path.GetTempPath();
-                        galleryDto.ImageName = await _fileHelper.saveImageAndGetFileName(model.File, tempPath, model.Title);
+                        galleryDto.ImageName = await _fileHelper.SaveImageAndGetFileName(model.File, tempPath, model.Title);
                     }
 
                     galleryDto.IsSliderImage = model.IsSliderImage;

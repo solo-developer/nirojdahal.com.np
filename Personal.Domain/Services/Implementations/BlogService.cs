@@ -135,7 +135,7 @@ namespace Personal.Domain.Services.Implementations
                 _blogRepo.Insert(blog);
 
                 if (!string.IsNullOrEmpty(dto.BannerImage))
-                    _fileHelper.moveImageFromTempPathToDestination(dto.BannerImage, IMAGE_FOLDER);
+                    _fileHelper.MoveImageFromTempPathToDestination(dto.BannerImage, IMAGE_FOLDER);
                 tx.Complete();
             }
         }
@@ -182,7 +182,7 @@ namespace Personal.Domain.Services.Implementations
                 });
 
                 if (!string.IsNullOrEmpty(dto.BannerImage))
-                    _fileHelper.moveImageFromTempPathToDestination(dto.BannerImage, IMAGE_FOLDER);
+                    _fileHelper.MoveImageFromTempPathToDestination(dto.BannerImage, IMAGE_FOLDER);
                 tx.Complete();
             }
         }

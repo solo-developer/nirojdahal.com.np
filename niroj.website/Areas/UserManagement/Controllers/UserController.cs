@@ -198,7 +198,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
             if (model.Image != null)
             {
                 string tempPath = Path.GetTempPath();
-                string fileName = await _fileHelper.saveImageAndGetFileName(model.Image, tempPath, model.FullName.Replace(" ", "-"));
+                string fileName = await _fileHelper.SaveImageAndGetFileName(model.Image, tempPath, model.FullName.Replace(" ", "-"));
 
                 dto.ImageName = fileName;
             }

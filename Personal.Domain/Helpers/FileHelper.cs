@@ -13,21 +13,21 @@ namespace Personal.Domain.Helpers
 {
     public class FileHelper : IFileHelper
     {
-        private readonly IHostingEnvironment hostingEnvironment;
-        public FileHelper(IHostingEnvironment _hostingEnvironment)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public FileHelper(IHostingEnvironment hostingEnvironment)
         {
-            hostingEnvironment = _hostingEnvironment;
+            this._hostingEnvironment = hostingEnvironment;
         }
-        public bool isImageValid(string file_name)
+        public bool IsImageValid(string file_name)
         {
-            var allowedExtensions = new[] { ".jpeg", ".png", ".jpg" };
+            var allowedExtensions = new[] { ".jpeg", ".png", ".jpg",".gif" };
             var extension = Path.GetExtension(file_name).ToLower();
             if (!allowedExtensions.Contains(extension))
                 return false;
             return true;
         }
 
-        public bool isExcelFileValid(string file_name)
+        public bool IsExcelFileValid(string file_name)
         {
             var allowedExtensions = new[] { ".xlsx", ".xls" };
             var extension = Path.GetExtension(file_name).ToLower();
@@ -36,9 +36,9 @@ namespace Personal.Domain.Helpers
             return true;
         }
 
-        public async Task<string> saveImageAndGetFileName(IFormFile file, string destination_folder, string file_prefix = "")
+        public async Task<string> SaveImageAndGetFileName(IFormFile file, string destination_folder, string file_prefix = "")
         {
-            if (!isImageValid(file.FileName))
+            if (!IsImageValid(file.FileName))
             {
                 throw new CustomException("invalid Document format. Document must be an image.");
             }
@@ -65,7 +65,7 @@ namespace Personal.Domain.Helpers
             return file_name;
         }
 
-        public void imageResize(string input_image_path, string output_image_path, int new_width)
+        public void ImageResize(string input_image_path, string output_image_path, int new_width)
         {
             const long quality = 50L;
             Bitmap source_Bitmap = new Bitmap(input_image_path);
@@ -108,7 +108,7 @@ namespace Personal.Domain.Helpers
             source_Bitmap.Dispose();
         }
 
-        public bool isImageSizeLessThan1Mb(IFormFile file)
+        public bool IsImageSizeLessThan1Mb(IFormFile file)
         {
             if (file != null)
             {
@@ -119,7 +119,7 @@ namespace Personal.Domain.Helpers
             return false;
         }
 
-        public string getFileName(IFormFile file, string file_prefix = "")
+        public string GetFileName(IFormFile file, string file_prefix = "")
         {
             Random random = new Random();
             string file_name = "";
@@ -135,9 +135,9 @@ namespace Personal.Domain.Helpers
             return file_name;
         }
 
-        public string moveImageFromTempPathToDestination(string image_name, string destination_folder)
+        public string MoveImageFromTempPathToDestination(string image_name, string destination_folder)
         {
-            var destinationPath = Path.Combine(hostingEnvironment.WebRootPath, destination_folder);
+            var destinationPath = Path.Combine(_hostingEnvironment.WebRootPath, destination_folder);
 
             bool doDestinationDirectoryExists = System.IO.Directory.Exists(destinationPath);
 
@@ -152,9 +152,9 @@ namespace Personal.Domain.Helpers
 
         }
 
-        public void deleteFile(string destination_folder, string file_name)
+        public void DeleteFile(string destination_folder, string file_name)
         {
-            var destinationPath = Path.Combine(hostingEnvironment.WebRootPath, destination_folder);
+            var destinationPath = Path.Combine(_hostingEnvironment.WebRootPath, destination_folder);
 
             var filePath = Path.Combine(destinationPath, file_name);
             if (File.Exists(filePath))

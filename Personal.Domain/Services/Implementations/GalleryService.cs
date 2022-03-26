@@ -35,7 +35,7 @@ namespace Personal.Domain.Services.Implementations
                 string oldImage = gallery.ImageName;
                 _galleryRepo.Delete(gallery);
 
-                _fileHelper.deleteFile(IMAGE_FOLDER, oldImage);
+                _fileHelper.DeleteFile(IMAGE_FOLDER, oldImage);
                 tx.Complete();
             }
         }
@@ -95,7 +95,7 @@ namespace Personal.Domain.Services.Implementations
                 Gallery gallery = new Gallery();
                 _galleryAssembler.Copy(dto, gallery);
                 _galleryRepo.Insert(gallery);
-                _fileHelper.moveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
+                _fileHelper.MoveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
                 tx.Complete();
             }
         }
@@ -114,10 +114,10 @@ namespace Personal.Domain.Services.Implementations
 
                 if (!string.IsNullOrWhiteSpace(dto.ImageName))
                 {
-                    _fileHelper.moveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
+                    _fileHelper.MoveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
                     if (!string.IsNullOrWhiteSpace(oldImage))
                     {
-                        _fileHelper.deleteFile(IMAGE_FOLDER, oldImage);
+                        _fileHelper.DeleteFile(IMAGE_FOLDER, oldImage);
                     }
                 }
                 tx.Complete();

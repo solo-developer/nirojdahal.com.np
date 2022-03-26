@@ -90,7 +90,7 @@ namespace niroj.website.Areas.Admin.Controllers
                     if (dto.Banner != null)
                     {
                         string tempPath = Path.GetTempPath();
-                        dto.BannerImage = await _fileHelper.saveImageAndGetFileName(dto.Banner, tempPath, dto.Title);
+                        dto.BannerImage = await _fileHelper.SaveImageAndGetFileName(dto.Banner, tempPath, dto.Title);
                     }
                     dto.PerformedBy = getLoggedInUserId();
                     _blogService.Save(dto);
@@ -148,7 +148,7 @@ namespace niroj.website.Areas.Admin.Controllers
                     if (dto.Banner != null)
                     {
                         string tempPath = Path.GetTempPath();
-                        dto.BannerImage = await _fileHelper.saveImageAndGetFileName(dto.Banner, tempPath, dto.Title);
+                        dto.BannerImage = await _fileHelper.SaveImageAndGetFileName(dto.Banner, tempPath, dto.Title);
                     }
                     _blogService.Update(dto);
                     AlertHelper.setMessage(this, "Blog updated Successfully.");

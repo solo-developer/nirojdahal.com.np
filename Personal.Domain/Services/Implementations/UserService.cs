@@ -53,12 +53,12 @@ namespace Personal.Domain.Services.Implementations
 
                 if (!string.IsNullOrWhiteSpace(dto.ImageName))
                 {
-                    _fileHelper.moveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
+                    _fileHelper.MoveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
                 };
                 if (!string.IsNullOrWhiteSpace(userImg))
                 {
 
-                    _fileHelper.deleteFile(IMAGE_FOLDER, userImg);
+                    _fileHelper.DeleteFile(IMAGE_FOLDER, userImg);
                 }
 
                 tx.Complete();
@@ -159,7 +159,7 @@ namespace Personal.Domain.Services.Implementations
 
                 if (!string.IsNullOrWhiteSpace(dto.ImageName))
                 {
-                    _fileHelper.moveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
+                    _fileHelper.MoveImageFromTempPathToDestination(dto.ImageName, IMAGE_FOLDER);
                 };
 
                 tx.Complete();
