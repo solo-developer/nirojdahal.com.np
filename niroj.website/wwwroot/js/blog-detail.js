@@ -8,13 +8,6 @@
 })();
 
 
-//$(document).ready(function () {
-//    var disqusPublicKey = "YOUR_PUBLIC_KEY";
-//    var disqusShortname = "thenextweb";
-
-//    var urlArray = [];
-//    $('.count-comment').each(function () {
-//        var url = $(this).attr('data-disqus-url');
-//        urlArray.push('thread:link=' + url);
-//    });
-//});
+$(document).ready(function () {
+    lazyLoadImages();
+});
