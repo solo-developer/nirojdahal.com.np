@@ -20,7 +20,7 @@
 
         <div class="blog-post-body">
             <figure class="blog-banner">
-                <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid" src="~/uploads/blog-img/@Model.BannerImage" alt="image"></a>
+                <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid lozad" data-src="/uploads/blog-img/@Model.BannerImage" alt="image"></a>
             </figure>
             @Html.Raw(Markdown.ParseHtmlString(Model.Content))
 

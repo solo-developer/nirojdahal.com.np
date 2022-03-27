@@ -7,3 +7,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     hljs.highlightBlock(block);
   });
 });
+
+$(document).ready(function () {
+    lazyLoadImages();
+});

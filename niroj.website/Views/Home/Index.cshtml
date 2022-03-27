@@ -42,7 +42,6 @@
     <div class="container">
         <h2 class="section-title font-weight-bold mb-5">Latest Blog Posts</h2>
         <div id="blog-content-container">
-          
         </div>
     </div>
 </section>
@@ -65,7 +64,7 @@
         <h2 class="section-title font-weight-bold mb-5">Contact</h2>
 
         @{
-            await Html.RenderPartialAsync("~/Views/Contact/_ContactForm.cshtml");
+            Html.RenderPartialAsync("~/Views/Contact/_ContactForm.cshtml");
         }
     </div>
 </section>

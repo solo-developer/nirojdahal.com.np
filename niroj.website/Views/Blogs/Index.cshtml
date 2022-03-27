@@ -36,7 +36,7 @@
 
                     <div class="col-md-4 mb-3">
                         <div class="card blog-post-card">
-                            <img class="card-img-top" src="~/uploads/blog-img/@blog.BannerImage" alt="@blog.BannerImage">
+                            <img class="card-img-top lozad" data-src="/uploads/blog-img/@blog.BannerImage" alt="@blog.BannerImage">
                             <div class="card-body">
                                 <h5 class="card-title"><a class="theme-link" href="/blogs/@blog.Slug">@blog.Title</a></h5>
                                 <p class="card-text">@Html.Raw(trimmedContent)</p>
@@ -98,3 +98,7 @@
         }
     </div>
 </section>
+
+@section scripts{
+    <script src="~/js/blog.js" asp-append-version="true"></script>
+}

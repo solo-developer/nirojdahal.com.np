@@ -4,6 +4,10 @@
     $('#subscribe').on('click', subscribeToNewsletter);
 });
 
+function lazyLoadImages() {
+    const observer = lozad();
+    observer.observe();
+}
 function setSidebarLinksActiveBasedOnLinksClicked() {
     $('#navigation').find('.nav-link').removeClass('active');
     $(this).find('.nav-link').addClass('active');
