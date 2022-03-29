@@ -50,11 +50,11 @@ namespace Personal.Domain.Helpers
             string file_name = "";
             if (string.IsNullOrWhiteSpace(file_prefix))
             {
-                file_name = Path.GetFileNameWithoutExtension(file.FileName) + random.Next(1, 1232384943) + Path.GetExtension(file.FileName);
+                file_name = Path.GetFileNameWithoutExtension(file.FileName).Replace(' ','-') + random.Next(1, 1232384943) + Path.GetExtension(file.FileName);
             }
             else
             {
-                file_name = file_prefix + random.Next(1, 1232384943) + Path.GetExtension(file.FileName);
+                file_name = file_prefix.Replace(' ','-') + random.Next(1, 1232384943) + Path.GetExtension(file.FileName);
             }
 
             var filePath = Path.Combine(destination_folder, file_name);
