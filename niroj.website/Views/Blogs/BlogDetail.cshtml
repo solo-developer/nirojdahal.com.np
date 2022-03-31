@@ -1,32 +1,61 @@
-﻿@model Personal.Domain.Dto.BlogDto
+﻿@model BlogDto
+@using Personal.Domain.Dto
 @using Westwind.AspNetCore.Markdown
+@using niroj.website.ViewModels
 @using Humanizer
+@{
+    var categories = ViewBag.categories as List<BlogCategoryCountViewModel>;
+}
 <article class="blog-post px-3 py-5 p-md-5">
-    <div class="container single-col-max-width">
-        <header class="blog-post-header">
-            <h2 class="title mb-2">@Model.Title</h2>
-            <div class="meta mb-2">
-                <span class="date">Published @Model.CreatedDate.Humanize()</span>
-                <span class="time">5 min read</span>
-                @* <span class="comment"><a class="text-link comment-count" data-disqus-url="" href="#">4 comments</a></span>*@
-            </div>
-            <div class="meta mb-3">
-                @for (var i = 0; i < Model.TagNames.Count; i++)
-                {
-                    <strong class="blog-tag"><a href="/blogs/tags/@Model.TagNames[i]">#@Model.TagNames[i]</a></strong>
-                }
-            </div>
-        </header>
+    <div class="container row">
+        <div class="col-sm-12 col-md-9">
+            <header class="blog-post-header">
+                <h2 class="title mb-2">@Model.Title</h2>
+                <div class="meta mb-2">
+                    <span class="date">Published @Model.CreatedDate.Humanize()</span>
+                    <span class="time">5 min read</span>
+                    @* <span class="comment"><a class="text-link comment-count" data-disqus-url="" href="#">4 comments</a></span>*@
+                </div>
+                <div class="meta mb-3">
+                    @for (var i = 0; i < Model.TagNames.Count; i++)
+                    {
+                        <strong class="blog-tag"><a href="/blogs/tags/@Model.TagNames[i]">#@Model.TagNames[i]</a></strong>
+                    }
+                </div>
+            </header>
 
-        <div class="blog-post-body">
-            <figure class="blog-banner">
-                <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid lozad" data-src="/uploads/blog-img/@Model.BannerImage" alt="image"></a>
-            </figure>
-            @Html.Raw(Markdown.ParseHtmlString(Model.Content))
+            <div class="blog-post-body">
+                <figure class="blog-banner">
+                    <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid lozad" data-src="/uploads/blog-img/@Model.BannerImage" alt="image"></a>
+                </figure>
+                @Html.Raw(Markdown.ParseHtmlString(Model.Content))
 
-            <div class="blog-comments-section">
-                <div id="disqus_thread"></div>
+                <div class="blog-comments-section">
+                    <div id="disqus_thread"></div>
+                </div>
+
             </div>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <div class="input-group mb-4">
+                <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon5" class="form-control">
+                <div class="input-group-append">
+                    <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <div>
+                <h6 class="underlined-title mb-3">CATEGORIES</h6>
+                <ul class="unstyled-ul">
+                    @foreach (var category in categories)
+                    {
+
+                        <li class="blog-category-nav">
+                            <a href="/blogs?category=@category.Name">@category.Name  (@category.BlogsCount)</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
 
         </div>
     </div>

@@ -1,16 +1,16 @@
 ﻿
-.content-right{
-    display:flex;
+.content-right {
+    display: flex;
     justify-content: flex-end;
 }
 
-.display-flex{
-    display:flex;
+.display-flex {
+    display: flex;
 }
 
-.stick-right{
-    margin-left:auto;
-    margin-right:0;
+.stick-right {
+    margin-left: auto;
+    margin-right: 0;
 }
 
 .contact-detail {
@@ -18,8 +18,8 @@
     padding: 15px;
 }
 
-.center{
-    margin:auto;
+.center {
+    margin: auto;
 }
 
 .coming-soon {
@@ -33,6 +33,36 @@
     font-family: 'Slabo 27px', serif;
 }
 
-.blog-tag{
-    font-size:1rem;
+.blog-tag {
+    font-size: 1rem;
+}
+
+.underlined-title:after {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: #232323;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.blog-category-nav {
+    margin-bottom: 0.6rem;
+    cursor: pointer;
+}
+
+.unstyled-ul {
+    list-style: none;
+}
+
+.blog-category-nav::before {
+    content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIlJREFUeNpiYCATMKILmBbuMABSAUA84XS/xwdcGpmwiO0H4noQDTREgBSNMGCATzM2jYXEaGbEZhpQYQKQmo8kdAGIHZH9jNWpQAULgFQims3rifUjyBaSQhUWJaDQhfntA5rfccYjuiaQ/y4QE494NRHyI05NIMCCRcwRmuQWADU9YKA2AAgwANXjLnb5SuGCAAAAAElFTkSuQmCC);
+    font-weight: 400;
+    float: none;
+    padding-right: 0.5em;
+    line-height: 30px;
+    text-decoration: none;
+    position: relative;
+    left: 3%;
 }

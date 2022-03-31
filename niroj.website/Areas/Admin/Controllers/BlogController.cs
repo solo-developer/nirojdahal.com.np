@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using niroj.website.Controllers;
 using niroj.website.Helpers;
 using Personal.Domain.Dto;
-using Personal.Domain.Entities;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Helpers;
-using Personal.Domain.Repository.Interface;
 using Personal.Domain.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -40,7 +38,8 @@ namespace niroj.website.Areas.Admin.Controllers
         {
             try
             {
-                var datas = await _blogService.GetAll(0);
+                var filterDto = new BlogFilterDto { };
+                var datas = await _blogService.GetAll(filterDto);
                 return View(datas.Data as List<BlogDto>);
             }
             catch (CustomException ex)

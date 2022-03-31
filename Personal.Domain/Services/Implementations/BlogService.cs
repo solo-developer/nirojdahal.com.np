@@ -55,19 +55,22 @@ namespace Personal.Domain.Services.Implementations
             }
         }
 
-        public async Task<PagedResultDto> GetAll(int skip, int? take = null, bool onlyPublished = false)
+        public async Task<PagedResultDto> GetAll(BlogFilterDto dto)
         {
             PagedResultDto result = new PagedResultDto();
             var blogs = _blogRepo.GetQueryable().Where(a => !a.IsDeleted);
-            if (onlyPublished)
+            if (dto.OnlyPublished)
                 blogs = blogs.Where(a => a.IsPublished);
+
+            if (!string.IsNullOrEmpty(dto.Category))
+                blogs = blogs.Where(a => string.Equals(dto.Category.ToLower().Trim(), a.Category.Title.ToLower().Trim()));
 
             result.TotalRecords = blogs.Count();
             result.Take = 6;
-            result.Skip = skip;
-            blogs = blogs.Skip(skip);
-            if (take.HasValue)
-                blogs = blogs.Take(take.Value);
+            result.Skip = dto.Skip;
+            blogs = blogs.Skip(dto.Skip);
+            if (dto.Take.HasValue)
+                blogs = blogs.Take(dto.Take.Value);
             blogs = blogs.OrderByDescending(a => a.CreatedDate).AsQueryable();
 
             var allBlogCategoryIds = blogs.Where(a => a.CategoryId.HasValue).Select(a => a.CategoryId).Distinct();
@@ -83,9 +86,9 @@ namespace Personal.Domain.Services.Implementations
                 {
                     category = allCategories.SingleOrDefault(a => a.Id == blog.CategoryId);
                 }
-                var dto = new BlogDto();
-                Copy(blog, dto, category);
-                response.Add(dto);
+                var blogDto = new BlogDto();
+                Copy(blog, blogDto, category);
+                response.Add(blogDto);
             }
             result.Data = response;
             return result;
@@ -149,7 +152,7 @@ namespace Personal.Domain.Services.Implementations
                 blog.ShowInView(performedBy);
 
                 _blogRepo.Update(blog);
-               
+
                 var subscribers = _newsLetterRepo.GetQueryableWithNoTracking().Select(a => a.Email).Distinct();
                 if (subscribers.Any())
                 {

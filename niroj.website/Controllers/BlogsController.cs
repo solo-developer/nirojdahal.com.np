@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using niroj.website.Helpers;
+using niroj.website.ViewModels;
 using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
+using Personal.Domain.Repository.Interface;
 using Personal.Domain.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -15,17 +17,21 @@ namespace niroj.website.Controllers
     public class BlogsController : Controller
     {
         private readonly IBlogService _blogService;
-        public BlogsController(IBlogService blogService)
+        private readonly IBlogCategoryRepository _blogCategoryRepo;
+
+        public BlogsController(IBlogService blogService, IBlogCategoryRepository blogCategoryRepo)
         {
             _blogService = blogService;
+            _blogCategoryRepo = blogCategoryRepo;
         }
+
 
         [Route("index")]
         [Route("")]
-        public async Task<IActionResult> Index(int? pageNo = 1, int? take = 6)
+        public async Task<IActionResult> Index(BlogFilterDto dto)
         {
-            int skip = ((int)(pageNo.Value - 1)) * take.Value;
-            var blogs = await _blogService.GetAll(skip, take,true);
+            dto.OnlyPublished = true;
+            var blogs = await _blogService.GetAll(dto);
             return View(blogs);
         }
 
@@ -33,13 +39,22 @@ namespace niroj.website.Controllers
         public async Task<IActionResult> GetBlog(string slug)
         {
             var blog = await _blogService.GetBySlug(slug);
+
+            var categories = _blogCategoryRepo.GetAllIncluding(a => a.Blogs).Select(a => new BlogCategoryCountViewModel
+            {
+                Id = a.Id,
+                BlogsCount = a.Blogs.Where(b => b.IsPublished).Count(),
+                Name = a.Title
+            }).ToList();
+            ViewBag.categories = categories;
             return View("BlogDetail", blog);
         }
 
         [Route("dashboard-section")]
         public async Task<IActionResult> GetBlogsForDashboard()
         {
-            var blogs = await _blogService.GetAll(0, 3,true);
+            var fiterDto = new BlogFilterDto { Take = 3, PageNo = 1,OnlyPublished=true };
+            var blogs = await _blogService.GetAll(fiterDto);
             return PartialView("~/Views/Blogs/_blogDashboardList.cshtml", blogs.Data as List<BlogDto>);
         }
 
