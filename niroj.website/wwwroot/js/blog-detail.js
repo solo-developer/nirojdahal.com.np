@@ -20,4 +20,3 @@ function setReadingTime() {
     const time = Math.ceil(words / wpm);
     document.getElementById("time").innerText = `${time} min read`;
 }
-readingTime();
