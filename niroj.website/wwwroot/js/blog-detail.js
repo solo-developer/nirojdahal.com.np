@@ -10,4 +10,14 @@
 
 $(document).ready(function () {
     lazyLoadImages();
+    setReadingTime();
 });
+
+function setReadingTime() {
+    const text = document.getElementById("blog-content").innerText;
+    const wpm = 225;
+    const words = text.trim().split(/\s+/).length;
+    const time = Math.ceil(words / wpm);
+    document.getElementById("time").innerText = `${time} min read`;
+}
+readingTime();

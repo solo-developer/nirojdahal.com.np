@@ -13,7 +13,7 @@
                 <h2 class="title mb-2">@Model.Title</h2>
                 <div class="meta mb-2">
                     <span class="date">Published @Model.CreatedDate.Humanize()</span>
-                    <span class="time">5 min read</span>
+                    <span id="time">5 min read</span>
                     @* <span class="comment"><a class="text-link comment-count" data-disqus-url="" href="#">4 comments</a></span>*@
                 </div>
                 <div class="meta mb-3">
@@ -28,7 +28,10 @@
                 <figure class="blog-banner">
                     <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid lozad" data-src="/uploads/blog-img/@Model.BannerImage" alt="image"></a>
                 </figure>
-                @Html.Raw(Markdown.ParseHtmlString(Model.Content))
+                <div id="blog-content">
+                     @Html.Raw(Markdown.ParseHtmlString(Model.Content))
+                </div>
+               
 
                 <div class="blog-comments-section">
                     <div id="disqus_thread"></div>
@@ -55,8 +58,6 @@
                     }
                 </ul>
             </div>
-
-
         </div>
     </div>
 </article>
