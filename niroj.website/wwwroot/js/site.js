@@ -1,8 +1,35 @@
-﻿$(document).ready(function () {
+﻿const siderBarUrlMapping = [
+    { urlPart: 'portfolio', sidebarClass: 'portfolio-sidebar-li' },
+    { urlPart: 'resume', sidebarClass: 'resume-sidebar-li' },
+    { urlPart: 'blogs', sidebarClass: 'blogs-sidebar-li' },
+    { urlPart: '#my-works', sidebarClass: 'my-works-sidebar-li' },
+    { urlPart: 'contact', sidebarClass: 'contact-sidebar-li' },
+    { urlPart: '', sidebarClass: 'default-sidebar-li' },
+]
+
+
+$(document).ready(function () {
+    activateSidebarMenu();
     $('#navigation').on('click', '.nav-item', setSidebarLinksActiveBasedOnLinksClicked);
     $('#btn-contact-submit').on('click', sendMessage);
     $('#subscribe').on('click', subscribeToNewsletter);
 });
+
+function activateSidebarMenu() {
+    let url = window.location.href;
+    let matchedObjects = [];
+    for (let i = 0; i < siderBarUrlMapping.length; i++) {
+        if (url.toLowerCase().includes(siderBarUrlMapping[i].urlPart))
+            matchedObjects.push(siderBarUrlMapping[i]);
+    }
+    if (matchedObjects.length == 0)
+        return;
+    let activeSidebarMenu = matchedObjects[0].sidebarClass;
+    $('.navbar-nav>li').each(function () {
+        $(this).find('a').removeClass('active');
+    })   
+    $("." + activeSidebarMenu).find('a').addClass('active');
+}
 
 function lazyLoadImages() {
     const observer = lozad();
