@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string description = ViewBag.description ?? "Personal Website";
+    string keywords = ViewBag.keywords ?? string.Empty;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Niroj Dahal- Full Stack Developer</title>
@@ -7,7 +11,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Personal Website">
+    <meta name="description" content="@description">
+    <meta name="keywords" content="@keywords">
     <meta name="author" content="Niroj Dahal">
     <link rel="shortcut icon" href="~/favicon.ico">
 

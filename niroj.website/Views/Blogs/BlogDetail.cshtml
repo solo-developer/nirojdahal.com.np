@@ -5,6 +5,9 @@
 @using Humanizer
 @{
     var categories = ViewBag.categories as List<BlogCategoryCountViewModel>;
+   
+    ViewBag.keywords = $"{string.Join(",",Model.TagNames) +","+ Model.CategoryName}";
+    ViewBag.description = Model.ShortDescription;
 }
 <article class="blog-post px-3 py-5 p-md-5">
     <div class="container row">
@@ -29,9 +32,9 @@
                     <a href="~/images/blog/@Model.BannerImage"><img class="img-fluid lozad" data-src="/uploads/blog-img/@Model.BannerImage" alt="image"></a>
                 </figure>
                 <div id="blog-content">
-                     @Html.Raw(Markdown.ParseHtmlString(Model.Content))
+                    @Html.Raw(Markdown.ParseHtmlString(Model.Content))
                 </div>
-               
+
 
                 <div class="blog-comments-section">
                     <div id="disqus_thread"></div>
