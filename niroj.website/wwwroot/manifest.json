@@ -1,0 +1,17 @@
+{
+  "name": "Niroj Dahal",
+  "short_name": "Niroj Dahal",
+  "description": "Full-stack .NET Developer",
+  "icons": [
+    {
+      "src": "/192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/512.png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/"
+}

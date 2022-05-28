@@ -16,6 +16,7 @@ using Personal.Infrastructure.Context;
 using Personal.Infrastructure.Repository.Implementations;
 using System;
 using System.Linq;
+using WebEssentials.AspNetCore.Pwa;
 using Westwind.AspNetCore.Markdown;
 
 namespace niroj.website
@@ -86,7 +87,11 @@ namespace niroj.website
             });
             services.AddMarkdown();
             services.AddControllersWithViews().AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly); ;
-
+            services.AddProgressiveWebApp(new PwaOptions
+            {
+                RoutesToPreCache = "/, /contact,/blogs",
+                Strategy = ServiceWorkerStrategy.CacheFirst
+            });
             services.AddRecaptcha(new RecaptchaOptions
             {
                 SiteKey = Configuration["Recaptcha:SiteKey"],
