@@ -153,6 +153,7 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 *.suo
+*.Production.json
 Application.myapp
 .vs
 ServiceResolvers/
