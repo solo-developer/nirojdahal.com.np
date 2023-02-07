@@ -34,7 +34,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
         [Route("")]
         [HttpGet]
         [Route("index")]
-        [Authorize(Policy = "UserManagement")]
+       // [Authorize(Policy = "UserManagement")]
         public IActionResult Index()
         {
             var users = _userService.GetAll();
@@ -43,7 +43,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
 
         [Route("new")]
         [HttpGet]
-        [Authorize(Policy = "UserManagement")]
+       // [Authorize(Policy = "UserManagement")]
         public IActionResult Save()
         {
             ViewBag.roles = _roleRepo.GetQueryable().Select(a => new
@@ -57,7 +57,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
 
         [Route("save")]
         [HttpPost]
-        [Authorize(Policy = "UserManagement")]
+      //  [Authorize(Policy = "UserManagement")]
         public async Task<IActionResult> Save(UserSaveViewModel model)
         {
             try

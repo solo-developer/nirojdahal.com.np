@@ -33,7 +33,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
         [Route("")]
         [HttpGet]
         [Route("index")]
-        [Authorize(Policy = "RolePermissionManagement")]
+        //[Authorize(Policy = "RolePermissionManagement")]
         public IActionResult Index()
         {
             try
@@ -63,7 +63,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
 
         [Route("permissions-of-role")]
         [HttpGet]
-        [Authorize(Policy = "RolePermissionManagement")]
+       // [Authorize(Policy = "RolePermissionManagement")]
         public IActionResult GetPermissionsOfRole(string role_id)
         {
             try
@@ -79,7 +79,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
 
         [Route("save")]
         [HttpPost]
-        [Authorize(Policy = "RolePermissionManagement")]
+      //  [Authorize(Policy = "RolePermissionManagement")]
         public IActionResult Save([FromBody]RolePermissionSaveViewModel vm)
         {
             try
