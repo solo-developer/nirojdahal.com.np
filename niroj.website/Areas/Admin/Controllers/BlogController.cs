@@ -38,7 +38,7 @@ namespace niroj.website.Areas.Admin.Controllers
         {
             try
             {
-                var filterDto = new BlogFilterDto { };
+                var filterDto = new BlogFilterDto {Take=null };
                 var datas = await _blogService.GetAll(filterDto);
                 return View(datas.Data as List<BlogDto>);
             }
@@ -46,7 +46,7 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get blogs.", MessageType.error);
             }

@@ -31,6 +31,7 @@ namespace niroj.website.Controllers
         public async Task<IActionResult> Index(BlogFilterDto dto)
         {
             dto.OnlyPublished = true;
+            dto.Take = 6;
             var blogs = await _blogService.GetAll(dto);
             return View(blogs);
         }

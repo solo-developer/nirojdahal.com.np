@@ -29,8 +29,10 @@
             <div class="row">
                 @foreach (var blog in blogs)
                 {
+                   
                     var content = Markdown.ParseHtmlString(blog.Content);
-                    var trimmedContent = content.Value.Substring(0, 300);
+                    var trimmedContentLength = content.Value.Length > 300 ? 300 : content.Value.Length;
+                    var trimmedContent = content.Value.Substring(0, trimmedContentLength);
                     var lastIndexOfFullStop = trimmedContent.LastIndexOf(".");
                     trimmedContent = trimmedContent.Substring(0, lastIndexOfFullStop + 1);
 

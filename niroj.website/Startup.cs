@@ -90,7 +90,7 @@ namespace niroj.website
             services.AddProgressiveWebApp(new PwaOptions
             {
                 RoutesToPreCache = "/, /contact,/blogs",
-                Strategy = ServiceWorkerStrategy.CacheFirst
+                Strategy = ServiceWorkerStrategy.NetworkFirst
             });
             services.AddRecaptcha(new RecaptchaOptions
             {

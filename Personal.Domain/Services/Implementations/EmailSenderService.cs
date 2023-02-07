@@ -61,7 +61,7 @@ namespace Personal.Domain.Services.Implementations
                 }
                 catch
                 {
-                    throw;
+                   
                 }
                 finally
                 {
