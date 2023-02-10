@@ -9,6 +9,12 @@ namespace niroj.website.Helpers
             var apiData = new { data };
             return JsonConvert.SerializeObject(apiData);
         }
+        
+        public static string buildSuccessJson()
+        {
+            var apiData = new { success=true };
+            return JsonConvert.SerializeObject(apiData);
+        }
 
         public static string buildErrorJson(string error)
         {

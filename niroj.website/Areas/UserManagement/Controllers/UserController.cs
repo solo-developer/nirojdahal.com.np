@@ -34,7 +34,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
         [Route("")]
         [HttpGet]
         [Route("index")]
-       // [Authorize(Policy = "UserManagement")]
+        // [Authorize(Policy = "UserManagement")]
         public IActionResult Index()
         {
             var users = _userService.GetAll();
@@ -43,7 +43,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
 
         [Route("new")]
         [HttpGet]
-       // [Authorize(Policy = "UserManagement")]
+        // [Authorize(Policy = "UserManagement")]
         public IActionResult Save()
         {
             ViewBag.roles = _roleRepo.GetQueryable().Select(a => new
@@ -57,7 +57,7 @@ namespace niroj.website.Areas.UserManagement.Controllers
 
         [Route("save")]
         [HttpPost]
-      //  [Authorize(Policy = "UserManagement")]
+        //  [Authorize(Policy = "UserManagement")]
         public async Task<IActionResult> Save(UserSaveViewModel model)
         {
             try
@@ -183,6 +183,37 @@ namespace niroj.website.Areas.UserManagement.Controllers
                 AlertHelper.setMessage(this, "Failed to get user profile.", MessageType.error);
             }
             return Redirect("/");
+        }
+
+        [HttpPost]
+        [Route("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel vm)
+        {
+            try
+            {
+                if (!vm.IsPasswordMatching)
+                {
+                    throw new InvalidValueException("Passwords didnot match.");
+                }
+                var userId = getLoggedInUserId();
+
+                var dto = new ChangePasswordDto
+                {
+                    AspUserId = userId,
+                    Password = vm.newPassword,
+                    CurrentPassword=vm.currentPassword
+                };
+                await _userService.ChangePassword(dto);
+                return Json(JsonWrapper.buildSuccessJson());
+            }
+            catch (CustomException ex)
+            {
+                return Json(JsonWrapper.buildErrorJson(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return Json(JsonWrapper.buildErrorJson("Failed to change password."));
+            }
         }
 
         private async Task Copy(UserSaveViewModel model, UserSaveDto dto)

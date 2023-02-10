@@ -55,10 +55,18 @@ namespace niroj.website.Controllers
             }
             catch (System.Exception)
             {
+                ModelState.AddModelError("", "Failed to login");
+                return View();
+            }           
+        }
 
-                throw;
-            }
-            return View();
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return Redirect("/account/login");
         }
     }
 }

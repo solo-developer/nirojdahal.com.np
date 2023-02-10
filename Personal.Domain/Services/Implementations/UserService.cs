@@ -8,6 +8,8 @@ using Personal.Domain.Repository.Interface;
 using Personal.Domain.Services.Interface;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace Personal.Domain.Services.Implementations
@@ -20,14 +22,16 @@ namespace Personal.Domain.Services.Implementations
         private readonly IFileHelper _fileHelper;
         private const string IMAGE_FOLDER = "uploads/user-img";
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(IUserRepository userRepo, IApplicationUserRepository applicationUserRepo, IUserAssembler userAssembler, IFileHelper fileHelper, IPasswordHasher<ApplicationUser> passwordHash)
+        public UserService(IUserRepository userRepo, IApplicationUserRepository applicationUserRepo, IUserAssembler userAssembler, IFileHelper fileHelper, IPasswordHasher<ApplicationUser> passwordHash, UserManager<ApplicationUser> userManager)
         {
             _userRepo = userRepo;
             _applicationUserRepo = applicationUserRepo;
             _userAssembler = userAssembler;
             _fileHelper = fileHelper;
             _passwordHasher = passwordHash;
+            _userManager = userManager;
         }
 
         public void Edit(UserSaveDto dto)
@@ -125,7 +129,7 @@ namespace Personal.Domain.Services.Implementations
             userDto.MobileNo = userDetail.MobileNo;
             userDto.Email = authenticationDetail.Email;
             userDto.FullName = userDetail.FullName;
-            userDto.Address=userDetail.Address;
+            userDto.Address = userDetail.Address;
         }
 
         public void Save(UserSaveDto dto)
@@ -188,5 +192,24 @@ namespace Personal.Domain.Services.Implementations
             return dto.UserId != userDetailWithSpecifiedUsername.Id;
         }
 
+        public async Task ChangePassword(ChangePasswordDto dto)
+        {
+            using (TransactionScope tx = new TransactionScope())
+            {
+                var user = _applicationUserRepo.Find(a => a.Id == dto.AspUserId) ?? throw new ItemNotFoundException("User not found.");
+                var isCurrentPasswordMatched = await _userManager.CheckPasswordAsync(user, dto.CurrentPassword);
+
+                if(!isCurrentPasswordMatched)
+                {
+                    throw new InvalidValueException("Current password didn't match.");
+                }
+                user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
+
+                _applicationUserRepo.Update(user);
+                tx.Complete();
+            }
+
+
+        }
     }
 }
