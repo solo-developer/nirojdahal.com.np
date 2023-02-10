@@ -84,6 +84,15 @@ namespace niroj.website.SeedData
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, role.Name);
+
+                    context.UserDetails.Add(new UserDetail
+                    {
+                        IdentityUserId=user.Id,
+                        FullName="Niroj Dahal",
+                        MobileNo="+977-9816003056",
+                        Address="Mahalaxmisthan,Lalitpur",
+                        ImageName="my-image.jpg"
+                    });
                 }
                 await context.SaveChangesAsync();
             }
