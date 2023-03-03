@@ -63,49 +63,19 @@
 
                     <section class="project-section py-3">
                         <h3 class="text-uppercase resume-section-heading mb-4">Projects</h3>
-                        <div class="item mb-3">
+                        @foreach(var project in Model.Projects){
+                             <div class="item mb-3">
                             <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Crystal Bangshawali</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
+                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">@project.Name</h4>
+                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">@project.ProjectType</div>
 
                             </div>
                             <div class="item-content">
-                                <p>Developed a project for Crystal Solution alone. Purpose of this software was to manage hierarchial data of generations of persons. Took full responsiblity of the project and completed it within the deadline to meet the client needs.</p>
+                                <p>@project.Description</p>
                             </div>
                         </div><!--//item-->
-
-                        <div class="item mb-3">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Crystal Cafe Solution</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>Added features and worked on improvement of existing system. Developed couple of modules and libraries for the system.</p>
-                            </div>
-                        </div><!--//item-->
-                        <div class="item">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">XmartCredit</h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>A complete end-to-end Credit automation software used in banks and financial institutions. Worked as Senior developer for more than 2 years and is working as Team Lead of the project currently.</p>
-
-                            </div>
-                        </div><!--//item-->
-                        <div class="item">
-                            <div class="item-heading row align-items-center mb-2">
-                                <h4 class="item-title col-12 col-md-6 col-lg-8 mb-2 mb-md-0">Raindrop ERP </h4>
-                                <div class="item-meta col-12 col-md-6 col-lg-4 text-muted text-start text-md-end">Office Project</div>
-
-                            </div>
-                            <div class="item-content">
-                                <p>Mini- ERP targeting all kinds of mid to large level instituations. Developed the software working as Senior software developer at Raindrop Inc.</p>
-
-                            </div>
-                        </div><!--//item-->
+                        }
+                       
                     </section><!--//project-section-->
                 </div><!--//resume-main-->
                 <aside class="resume-aside col-12 col-lg-4 col-xl-3 px-lg-4 pb-lg-4">

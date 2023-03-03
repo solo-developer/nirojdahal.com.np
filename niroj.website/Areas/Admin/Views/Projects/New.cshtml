@@ -1,0 +1,54 @@
+﻿@model ProjectDto
+@{
+    Layout = "_BackendLayout";
+    ViewData["Title"] = "Project";
+    string actionName = Model.Id > 0 ? "edit" : "save";
+}
+<div class="col-lg-12">
+    <div class="ibox ">
+        <div class="ibox-title">
+            <h5>Project</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form role="form" method="post" enctype="multipart/form-data" action="/admin/projects/@actionName">
+                <div class="row">
+                    <div class="col-sm-12 b-r">
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(a=>a.Id)
+                        <div class="form-group">
+                            <label>Name</label>
+                            @Html.TextBoxFor(a=>a.Name,null,new{@Class="form-control",Placeholder="Name",required="required"})
+                            @Html.ValidationMessageFor(a => a.Name, null, new { @Class = "text-danger" })
+                        </div>
+                       <div class="form-group">
+                            <label>Project Type</label>
+                            @Html.TextBoxFor(a=>a.ProjectType,null,new{@Class="form-control",Placeholder="Project Type",required="required"})
+                            @Html.ValidationMessageFor(a => a.ProjectType, null, new { @Class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            @Html.TextAreaFor(a=>a.Description,5,1,new{@Class="form-control",Placeholder="Description",required="required"})
+                            @Html.ValidationMessageFor(a => a.Description, null, new { @Class = "text-danger" })
+                        </div>
+
+                        <div>
+                            <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><i class="fa fa-save"></i><strong>&nbsp;&nbsp;&nbsp;Save</strong></button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

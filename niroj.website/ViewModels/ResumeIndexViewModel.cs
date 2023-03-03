@@ -7,7 +7,7 @@ namespace niroj.website.ViewModels
     {
         public List<SettingDto> Settings { get; set; } = new List<SettingDto>();
         public List<WorkExperienceDto> Experiences { get; set; } = new List<WorkExperienceDto>();
-
+        public List<ProjectDto> Projects { get; set; }=new List<ProjectDto>();
         public List<ResumeSkillCategoryViewModel> SkillCategories { get; set; }=new List<ResumeSkillCategoryViewModel>();
     }
 

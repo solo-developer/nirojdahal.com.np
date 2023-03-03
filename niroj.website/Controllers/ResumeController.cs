@@ -17,12 +17,14 @@ namespace niroj.website.Controllers
         private readonly ISettingRepository _settingRepo;
         private readonly IBaseRepository<ResumeSkillCategory> _skillCategoryRepo;
         private readonly IWorkExperienceService _workExperienceService;
+        private readonly IProjectService _projectService;
 
-        public ResumeController(ISettingRepository settingRepo, IBaseRepository<ResumeSkillCategory> skillCategoryRepo,IWorkExperienceService workExperienceService)
+        public ResumeController(ISettingRepository settingRepo, IBaseRepository<ResumeSkillCategory> skillCategoryRepo,IWorkExperienceService workExperienceService,IProjectService projectService)
         {
             _settingRepo = settingRepo;
             _skillCategoryRepo = skillCategoryRepo;
             _workExperienceService = workExperienceService;
+            _projectService = projectService;
         }
 
         [Route("")]
@@ -46,7 +48,7 @@ namespace niroj.website.Controllers
                     Skills = skillCategory.Skills.Select(b => b.Name).ToList()
                 });
             });
-
+            response.Projects= await _projectService.GetAllAsync();
             response.Experiences = await _workExperienceService.GetAll();
 
             return View(response);
