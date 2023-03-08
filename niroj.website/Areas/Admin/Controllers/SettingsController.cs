@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Enums;
 using Personal.Domain.Exceptions;
@@ -18,11 +19,13 @@ namespace niroj.website.Areas.Admin.Controllers
     {
         private readonly ISettingService _settingService;
         private readonly ISettingRepository _settingRepo;
+        private readonly ILog _logService;
 
-        public SettingsController(ISettingService settingService, ISettingRepository settingRepo)
+        public SettingsController(ISettingService settingService, ISettingRepository settingRepo, ILog logService)
         {
             _settingService = settingService;
             _settingRepo = settingRepo;
+            _logService = logService;
         }
 
         [Route("personal-info")]
@@ -36,7 +39,7 @@ namespace niroj.website.Areas.Admin.Controllers
 
                 dtos.Add(new SettingDto()
                 {
-                    Key =appsettingKey,
+                    Key = appsettingKey,
                     Value = setting.Value
                 });
             }
@@ -67,6 +70,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to save personal information", MessageType.error);
+                _logService.Error($"Failed to save personal information, {ex}");
             }
             return RedirectToAction("index");
         }

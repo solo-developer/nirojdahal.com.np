@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Controllers;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Helpers;
@@ -22,13 +23,15 @@ namespace niroj.website.Areas.Admin.Controllers
         private readonly IBlogCategoryService _blogCategoryService;
         private readonly IFileHelper _fileHelper;
         private readonly ITagService _tagService;
+        private readonly ILog _logService;
 
-        public BlogController(IBlogService blogService, IBlogCategoryService blogCategoryService, IFileHelper fileHelper, ITagService tagService)
+        public BlogController(IBlogService blogService, IBlogCategoryService blogCategoryService, IFileHelper fileHelper, ITagService tagService, ILog logService)
         {
             _blogService = blogService;
             _blogCategoryService = blogCategoryService;
             _fileHelper = fileHelper;
             _tagService = tagService;
+            _logService = logService;
         }
 
         [Route("")]
@@ -38,7 +41,7 @@ namespace niroj.website.Areas.Admin.Controllers
         {
             try
             {
-                var filterDto = new BlogFilterDto {Take=null };
+                var filterDto = new BlogFilterDto { Take = null };
                 var datas = await _blogService.GetAll(filterDto);
                 return View(datas.Data as List<BlogDto>);
             }
@@ -49,6 +52,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get blogs.", MessageType.error);
+                _logService.Error($"Failed to get blogs ,{ex}");
             }
             return View(new List<BlogDto>());
         }
@@ -70,9 +74,10 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get view.", MessageType.error);
+                _logService.Error($"Failed to get new blog view ,{ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -86,11 +91,11 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (dto.Banner != null)
-                    {
-                        string tempPath = Path.GetTempPath();
-                        dto.BannerImage = await _fileHelper.SaveImageAndGetFileName(dto.Banner, tempPath, dto.Title);
-                    }
+                    if (dto.Banner == null) throw new NonNullValueException("Banner image is required");
+
+                    string tempPath = Path.GetTempPath();
+                    dto.BannerImage = await _fileHelper.SaveImageAndGetFileName(dto.Banner, tempPath, dto.Title);
+
                     dto.PerformedBy = getLoggedInUserId();
                     _blogService.Save(dto);
                     AlertHelper.setMessage(this, "Blog Saved Successfully.");
@@ -104,6 +109,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to save blog.", MessageType.error);
+                _logService.Error($"Failed to save blog ,{ex}");
             }
             finally
             {
@@ -131,6 +137,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get edit blog view ,{ex}");
                 return RedirectToAction("index");
             }
         }
@@ -161,6 +168,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to update blog.", MessageType.error);
+                _logService.Error($"Failed to update blog ,{ex}");
             }
             finally
             {
@@ -185,6 +193,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to publish blog ,{ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -202,6 +211,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to unpublish blog ,{ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -219,6 +229,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to delete blog ,{ex}");
             }
             return RedirectToAction(nameof(Index));
         }

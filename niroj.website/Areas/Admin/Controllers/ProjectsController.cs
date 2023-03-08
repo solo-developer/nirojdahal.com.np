@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Entities;
 using Personal.Domain.Exceptions;
@@ -21,10 +22,12 @@ namespace niroj.website.Areas.Admin.Controllers
     public class ProjectsController : Controller
     {
         private readonly IProjectService _projectService;
+        private readonly ILog _logService;
 
-        public ProjectsController(IProjectService projectService)
+        public ProjectsController(IProjectService projectService, ILog logService)
         {
             _projectService = projectService;
+            _logService = logService;
         }
 
         [Route("")]
@@ -47,9 +50,10 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get view.", MessageType.error);
+                _logService.Error($"Failed to get add project view, {ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -74,6 +78,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to save project detail.", MessageType.error);
+                _logService.Error($"Failed to save project, {ex}");
             }
             return View("New", dto);
         }
@@ -90,6 +95,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get edit project view, {ex}");
                 return RedirectToAction("index");
             }
         }
@@ -114,6 +120,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to update project.", MessageType.error);
+                _logService.Error($"Failed to get update project, {ex}");
             }
             return View("New", dto);
         }
@@ -130,6 +137,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get delete project, {ex}");
             }
             return RedirectToAction(nameof(Index));
         }

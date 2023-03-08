@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Controllers;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Services.Interface;
@@ -17,9 +18,11 @@ namespace niroj.website.Areas.Admin.Controllers
     public class WorkExperienceController : BaseController
     {
         private readonly IWorkExperienceService _workExperienceService;
-        public WorkExperienceController(IWorkExperienceService workExperienceService)
+        private readonly ILog _logService;
+        public WorkExperienceController(IWorkExperienceService workExperienceService, ILog logService)
         {
             _workExperienceService = workExperienceService;
+            _logService = logService;
         }
 
         [Route("")]
@@ -36,9 +39,10 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get work experiences.", MessageType.error);
+                _logService.Error($"Failed to get work experiences, {ex}");
             }
             return View(new List<WorkExperienceDto>());
         }
@@ -70,6 +74,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to save work experience.", MessageType.error);
+                _logService.Error($"Failed to save work experience, {ex}");
             }
             return View("New", dto);
         }
@@ -86,6 +91,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get edit work experience view, {ex}");
                 return RedirectToAction("index");
             }
         }
@@ -110,6 +116,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to update work experience.", MessageType.error);
+                _logService.Error($"Failed to update work experience, {ex}");
             }
             return View("New", dto);
         }
@@ -127,6 +134,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to delete work experience, {ex}");
             }
             return RedirectToAction(nameof(Index));
         }

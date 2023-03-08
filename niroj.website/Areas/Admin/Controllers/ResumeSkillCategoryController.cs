@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Extensions;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Entities;
 using Personal.Domain.Exceptions;
@@ -20,11 +21,13 @@ namespace niroj.website.Areas.Admin.Controllers
     {
         private readonly IResumeSkillCategoryService _skillCategoryService;
         private readonly IBaseRepository<ResumeSkillCategory> _skillCategoryRepo;
+        private readonly ILog _logService;
 
-        public ResumeSkillCategoryController(IResumeSkillCategoryService skillCatService, IBaseRepository<ResumeSkillCategory> repo)
+        public ResumeSkillCategoryController(IResumeSkillCategoryService skillCatService, IBaseRepository<ResumeSkillCategory> repo, ILog logService)
         {
             _skillCategoryService = skillCatService;
             _skillCategoryRepo = repo;
+            _logService = logService;
         }
 
         public async Task<IActionResult> Index()
@@ -86,6 +89,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 errorMessage = "Failed to save/update Skill Category";
+                _logService.Error($"Failed to save/update skill category , {ex}");
             }
             return Json(JsonWrapper.buildErrorJson(errorMessage));
         }
@@ -112,6 +116,7 @@ namespace niroj.website.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logService.Error($"Failed to delete skill category , {ex}");
                 AlertHelper.setMessage(this, "Failed to delete Skill Category.", MessageType.error);
             }
             return RedirectToAction("index");

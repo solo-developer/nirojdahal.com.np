@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Entities;
 using Personal.Domain.Exceptions;
@@ -21,12 +22,14 @@ namespace niroj.website.Areas.Admin.Controllers
         private readonly IResumeSkillService _resumeSkillService;
         private readonly IBaseRepository<ResumeSkill> _resumeSkillRepo;
         private readonly IResumeSkillCategoryService _resumeSkillCategoryService;
+        private readonly ILog _logService;
 
-        public ResumeSkillController(IResumeSkillService resumeSkillService, IBaseRepository<ResumeSkill> resumeSkillRepo, IResumeSkillCategoryService resumeSkillCategoryService)
+        public ResumeSkillController(IResumeSkillService resumeSkillService, IBaseRepository<ResumeSkill> resumeSkillRepo, IResumeSkillCategoryService resumeSkillCategoryService,ILog logService)
         {
             _resumeSkillService = resumeSkillService;
             _resumeSkillRepo = resumeSkillRepo;
             _resumeSkillCategoryService = resumeSkillCategoryService;
+            _logService=logService;
         }
 
         [Route("")]
@@ -50,9 +53,10 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get skills.", MessageType.error);
+                _logService.Error($"Failed to get skills, {ex}");
             }
             return View(new List<ResumeSkillDto>());
         }
@@ -71,9 +75,10 @@ namespace niroj.website.Areas.Admin.Controllers
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get view.", MessageType.error);
+                _logService.Error($"Failed to get add skills view, {ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -98,6 +103,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to save skill.", MessageType.error);
+                _logService.Error($"Failed to save skills, {ex}");
             }
             finally
             {
@@ -119,6 +125,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to delete skills, {ex}");
             }
             return RedirectToAction(nameof(Index));
         }

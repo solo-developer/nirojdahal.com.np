@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Extensions;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Entities;
 using Personal.Domain.Exceptions;
@@ -20,11 +21,13 @@ namespace niroj.website.Areas.Admin.Controllers
     {
         private readonly ITagService _tagService;
         private readonly IBaseRepository<Tag> _tagRepo;
+        private readonly ILog _logService;
 
-        public TagController(ITagService tagService, IBaseRepository<Tag> tagRepo)
+        public TagController(ITagService tagService, IBaseRepository<Tag> tagRepo, ILog logService)
         {
             _tagService = tagService;
             _tagRepo = tagRepo;
+            _logService = logService;
         }
 
         public async Task<IActionResult> Index()
@@ -39,7 +42,7 @@ namespace niroj.website.Areas.Admin.Controllers
         {
             var tag = await _tagRepo.FindAsync(a => a.Id == tag_id);
             var dto = new TagDto();
-            if(tag!= null)
+            if (tag != null)
             {
                 dto = new TagDto
                 {
@@ -85,6 +88,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 errorMessage = "Failed to save/update Tag";
+                _logService.Error($"Failed to save/update tag, {ex}");
             }
             return Json(JsonWrapper.buildErrorJson(errorMessage));
         }
@@ -112,6 +116,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to delete tag.", MessageType.error);
+                _logService.Error($"Failed to delete tag , {ex}");
             }
             return RedirectToAction("index");
         }

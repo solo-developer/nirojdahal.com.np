@@ -38,11 +38,6 @@ namespace niroj.website.Areas.Admin.Controllers
         {
             string path = Path.Combine(this._hostingEnvironment.ContentRootPath, "Logs/") + fileName;
             return PhysicalFile(path, MimeTypes.GetMimeType(path), Path.GetFileName(path));
-            //Read the File data into Byte Array.
-            //byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-            ////Send the File to Download.
-            //return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using niroj.website.Areas.Admin.Models;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Helpers;
@@ -19,11 +20,13 @@ namespace niroj.website.Areas.Admin.Controllers
     {
         private readonly IGalleryService _galleryService;
         private readonly IFileHelper _fileHelper;
+        private readonly ILog _logService;
 
-        public GalleryController(IGalleryService galleryService, IFileHelper fileHelper)
+        public GalleryController(IGalleryService galleryService, IFileHelper fileHelper,ILog logService)
         {
             _galleryService = galleryService;
             _fileHelper = fileHelper;
+            _logService = logService;
         }
 
         [Route("")]
@@ -48,6 +51,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get add galary view , {ex}");
                 return RedirectToAction("index");
             }
         }
@@ -82,6 +86,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get save galary item , {ex}");
             }
 
             return View(model);
@@ -110,6 +115,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get edit galary view , {ex}");
                 return RedirectToAction("index");
             }
         }
@@ -144,6 +150,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to edit galary item , {ex}");
             }
             return View(model);
         }
@@ -161,6 +168,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to enable galary item , {ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -178,6 +186,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to get disable galary item , {ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -195,6 +204,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to make slider image , {ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -212,6 +222,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to remove item from slider image , {ex}");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -229,6 +240,7 @@ namespace niroj.website.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, ex.Message, MessageType.error);
+                _logService.Error($"Failed to delete galary item , {ex}");
             }
             return RedirectToAction(nameof(Index));
         }

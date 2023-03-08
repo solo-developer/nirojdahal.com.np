@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using niroj.website.Controllers;
 using niroj.website.Extensions;
 using niroj.website.Helpers;
+using niroj.website.Logging;
 using Personal.Domain.Dto;
 using Personal.Domain.Exceptions;
 using Personal.Domain.Repository.Interface;
+using Personal.Domain.Services.Implementations;
 using Personal.Domain.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -20,11 +22,13 @@ namespace SG.Web.Areas.Admin.Controllers
     {
         private readonly IBlogCategoryService _blogCategoryService;
         private readonly IBlogCategoryRepository _blogCategoryRepo;
+        private readonly ILog _logService;
 
-        public BlogCategoryController(IBlogCategoryService blogCategoryService, IBlogCategoryRepository blogCategoryRepo)
+        public BlogCategoryController(IBlogCategoryService blogCategoryService, IBlogCategoryRepository blogCategoryRepo,ILog logService)
         {
             _blogCategoryService = blogCategoryService;
             _blogCategoryRepo = blogCategoryRepo;
+            _logService = logService;
         }
 
         [Route("")]
@@ -44,6 +48,7 @@ namespace SG.Web.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to get blog categories.", MessageType.error);
+                _logService.Error($"Failed to get blog category list  ,{ex}");
             }
             return View(new List<BlogCategoryDto>());
         }
@@ -103,6 +108,7 @@ namespace SG.Web.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 errorMessage = "Failed to save/update Blog Category";
+                _logService.Error($"Failed to save/update blog category ,{ex}");
             }
             return Json(JsonWrapper.buildErrorJson(errorMessage));
         }
@@ -130,6 +136,7 @@ namespace SG.Web.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 AlertHelper.setMessage(this, "Failed to delete blog category.", MessageType.error);
+                _logService.Error($"Failed to delete blog category ,{ex}");
             }
             return RedirectToAction("index");
         }

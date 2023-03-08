@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
     <Folder Include="Library\" />
   </ItemGroup>
 
