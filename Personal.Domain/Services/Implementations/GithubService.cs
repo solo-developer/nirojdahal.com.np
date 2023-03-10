@@ -26,7 +26,7 @@ namespace Personal.Domain.Services.Implementations
             //Search of all the repositories for given user account
             var repos = await client.Repository.GetAllForCurrent();
 
-            var publicRepos = repos.Where(a => !a.Private).ToList();
+            var publicRepos = repos.Where(a => !a.Private && !a.Fork).ToList();
 
             List<GithubRepoDto> response = new List<GithubRepoDto>();
             foreach (var repo in publicRepos)

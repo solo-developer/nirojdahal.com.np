@@ -7,7 +7,7 @@ namespace niroj.website.Controllers
 {
     public class GithubController : Controller
     {
-        private const int _gitRepoCountInDashboard = 10;
+        private const int _gitRepoCountInDashboard = 8;
         private readonly IGithubService _githubService;
         public GithubController(IGithubService githubService)
         {
