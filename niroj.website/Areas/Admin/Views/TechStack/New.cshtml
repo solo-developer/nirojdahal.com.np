@@ -1,0 +1,89 @@
+﻿@model TechStackDto
+@{
+    Layout = "_BackendLayout";
+    ViewData["Title"] = "Tech Stack";
+
+    var url = Model.Id > 0 ? "edit" : "save";
+}
+@section styles{
+
+    <link href="~/lib/iconpicker/dist/iconpicker-1.5.0.css" rel="stylesheet" />
+}
+<div class="col-lg-12">
+    <div class="ibox ">
+        <div class="ibox-title">
+            <h5>Tech Stack/Framework</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form role="form" method="post" enctype="multipart/form-data" action="/admin/tech-stack/@url">
+                <div class="row">
+                    <div class="col-sm-12 b-r">
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(a=>a.Id)
+                        <div class="form-group">
+                            <label>Title</label>
+                            @Html.TextBoxFor(a=>a.Title,null,new{@Class="form-control",Placeholder="Title",required="required"})
+                            @Html.ValidationMessageFor(a => a.Title, null, new { @Class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            @Html.TextAreaFor(a=>a.Description,new{@Class="form-control",Placeholder="Description"})
+                            @Html.ValidationMessageFor(a => a.Description, null, new { @Class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Icons</label> <br />
+                            <input type="text" name="IconsUnformatted" style="width:80%" id="selectedIcons" value="@(string.Join(",",Model.Icons))" />
+                            <button type="button" id="GetIconPicker" data-iconpicker-input="textarea#selectedIcons" data-iconpicker-preview="i#IconPreview">Select Icon</button>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Tech/Frameworks</div>
+                            <div class="panel-body">
+                                <a id="add-tech-row" href="#" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New</a>
+
+                                <table class="tech-list-table table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Stack</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var tech in Model.Skills)
+                                        {
+
+                                            await Html.RenderPartialAsync("~/Areas/Admin/Views/Partial/_TechStack.cshtml", tech);
+
+                                        }
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit"><i class="fa fa-save"></i><strong>&nbsp;&nbsp;&nbsp;Save</strong></button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/iconpicker/dist/iconpicker-1.5.0.js"></script>
+    <script src="~/js/admin/techstack.js" asp-append-version="true"></script>
+}

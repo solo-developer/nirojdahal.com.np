@@ -1,0 +1,15 @@
+﻿@model string
+@{
+    var random = Guid.NewGuid().ToString();
+}
+
+<tr class="tech-row">
+    <td>
+        <input type="hidden" name="Skills.Index" value="@random" />
+        @Html.TextBoxFor(a=>a,null,new{name=$"Skills[{random}]",@Class="form-control"})
+    </td>
+
+    <td>
+        <i class="fa fa-times remove-row" aria-hidden="true" data-toggle="tooltip" title="Remove row"></i>
+    </td>
+</tr>

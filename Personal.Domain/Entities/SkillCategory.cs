@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Personal.Domain.Entities
 {
@@ -33,8 +34,8 @@ namespace Personal.Domain.Entities
             this.Icons = string.Join(",", icons);
         }
 
-        public string[] GetIcons() => Icons.Split(",");
-
+        public List<string> GetIcons() => Icons.Split(",").ToList();
+        
     }
 
     public class Skill : BaseEntity
