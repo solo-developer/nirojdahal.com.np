@@ -16,6 +16,7 @@ namespace niroj.website.Controllers
             _environment = environment;
         }
         [Route("resume")]
+        [ResponseCache(Duration =600)]
         public IActionResult Index()
         {
             var baseDirectory = _environment.WebRootPath;

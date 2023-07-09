@@ -15,5 +15,6 @@
         GithubLink=11,
         LinkedInLink=12,
         TwitterLink=13,
+        ResumeFile=14
     }
 }

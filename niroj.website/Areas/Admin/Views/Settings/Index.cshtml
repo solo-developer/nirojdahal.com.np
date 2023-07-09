@@ -1,11 +1,13 @@
 ﻿@using Personal.Domain.Dto
+@using Microsoft.AspNetCore.Hosting
 @using niroj.website.Models
 @model List<SettingDto>
+@inject IWebHostEnvironment _environment
 @using System.Linq
 @{
     Layout = "_BackendLayout";
     ViewData["Title"] = "Settings";
-    var settingOptions =SettingsModel.GetKeys();
+    var settingOptions = SettingsModel.GetKeys();
 }
 
 <div class="col-lg-12">
@@ -32,7 +34,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @{ int sn = 0; SettingDto setup = new SettingDto(); }
+                            @{
+                                int sn = 0; SettingDto setup = new SettingDto();
+                            }
                             @foreach (var key in settingOptions)
                             {
                                 string value = "";
@@ -51,9 +55,44 @@
 
                                 sn++;
                             }
-                            
+
                         </tbody>
                     </table>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary waves-effect w-md waves-light pull-right"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;Save</button>
+                    </div>
+
+
+                </div>
+
+            </form>
+
+            <div class="clearfix"></div>
+            <div class="panel-subheader">Resume Upload</div>
+            <form method="post" action="/admin/settings/personal-info/upload-resume" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="table-responsive">
+                    <div>
+                        <div class="col-md-3">
+                            <input type="file" class="form-control" name="Resume"/>
+                        </div>
+                        <div class="col-md-9">
+                            @{
+                                var webRootPath = _environment.WebRootPath;
+                                var resumeFileExists = System.IO.File.Exists($@"{webRootPath}/attachments/Niroj_Dahal_Resume.pdf");
+                                if (resumeFileExists)
+                                {
+                                    <a href="/attachment/resume">Download Resume</a>
+                                }
+                                else
+                                {
+                                    <span>Resume not uploaded yet.</span>
+                                }
+                            }
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary waves-effect w-md waves-light pull-right"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;Save</button>
                     </div>
