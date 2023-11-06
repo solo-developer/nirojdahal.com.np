@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Xml;
 
 namespace Personal.Domain.Services.Implementations
 {
@@ -71,7 +72,7 @@ namespace Personal.Domain.Services.Implementations
             blogs = blogs.Skip(dto.Skip);
             if (dto.Take.HasValue)
                 blogs = blogs.Take(dto.Take.Value);
-            blogs = blogs.OrderByDescending(a => a.CreatedDate).AsQueryable();
+            blogs = blogs.OrderByDescending(a => a.Rate).ThenByDescending(a=>a.CreatedDate).AsQueryable();
 
             var allBlogCategoryIds = blogs.Where(a => a.CategoryId.HasValue).Select(a => a.CategoryId).Distinct();
 
@@ -198,6 +199,7 @@ namespace Personal.Domain.Services.Implementations
             dto.Content = entity.Content;
             dto.IsPublished = entity.IsPublished;
             dto.CategoryId = category?.Id;
+            dto.Rating = entity.Rate;
             dto.CategoryName = category?.Title;
             dto.BannerImage = entity.BannerImage;
             dto.TagNames = entity.Tags.Select(a => a.Tag.Name).ToList();
@@ -228,6 +230,17 @@ namespace Personal.Domain.Services.Implementations
             };
 
             await _newsLetterRepo.InsertAsync(entity);
+        }
+
+        public async Task SaveRating(BlogRatingDto dto)
+        {
+            using (TransactionScope tx = new TransactionScope())
+            {
+                var blog = _blogRepo.GetById(dto.BlogId) ?? throw new ItemNotFoundException("Blog doesnot exist.");
+                blog.Rate = dto.Rating;
+                _blogRepo.Update(blog);
+                tx.Complete();
+            }
         }
     }
 }

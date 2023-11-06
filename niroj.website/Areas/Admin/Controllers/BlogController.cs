@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using niroj.website.Areas.UserManagement.Models;
 using niroj.website.Controllers;
+using niroj.website.Extensions;
 using niroj.website.Helpers;
 using niroj.website.Logging;
 using Personal.Domain.Dto;
@@ -55,6 +58,19 @@ namespace niroj.website.Areas.Admin.Controllers
                 _logService.Error($"Failed to get blogs ,{ex}");
             }
             return View(new List<BlogDto>());
+        }
+
+        [HttpGet]
+        [Route("rating-view")]
+        public async Task<IActionResult> SaveOrUpdateView([FromQuery] int blogId)
+        {
+            var rating = new BlogRatingDto
+            {
+                BlogId = blogId
+            };
+            var viewHtml = this.RenderViewAsync("~/Areas/admin/Views/Blog/Partial/_BlogRatingView.cshtml", rating, true).GetAwaiter().GetResult();
+
+            return Json(JsonWrapper.buildSuccessJson(viewHtml));
         }
 
         [Route("new")]
@@ -196,6 +212,23 @@ namespace niroj.website.Areas.Admin.Controllers
                 _logService.Error($"Failed to publish blog ,{ex}");
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Route("save-rating")]
+        //  [Authorize(Policy = "UpdateBlog")]
+        public async Task<IActionResult> SaveRating([FromForm] BlogRatingDto dto)
+        {
+            try
+            {
+                await _blogService.SaveRating(dto);
+                return Json(JsonWrapper.buildSuccessJson(new { success = true }));
+            }
+            catch (Exception ex)
+            {
+                _logService.Error($"Failed to rate blog ,{ex}");
+                return Json(JsonWrapper.buildErrorJson("Failed to rate blog"));
+            }
         }
 
         [HttpGet]

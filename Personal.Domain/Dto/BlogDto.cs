@@ -29,13 +29,15 @@ namespace Personal.Domain.Dto
 
         public string PerformedBy { get; set; }
 
-        public DateTime  CreatedDate { get;private set; }
+        public DateTime CreatedDate { get; private set; }
 
         public bool IsPublished { get; set; }
 
+        public int Rating { get; set; }
+
         public List<long> Tags { get; set; } = new List<long>();
 
-        public List<string> TagNames { get; set; }=new List<string>();
+        public List<string> TagNames { get; set; } = new List<string>();
 
         public void SetSlug(string slug)
         {
@@ -46,5 +48,11 @@ namespace Personal.Domain.Dto
         {
             CreatedDate = date;
         }
+    }
+
+    public class BlogRatingDto
+    {
+        public long BlogId { get; set; }
+        public int Rating { get; set; }
     }
 }

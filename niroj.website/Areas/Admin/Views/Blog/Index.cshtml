@@ -1,7 +1,7 @@
 ﻿@model List<BlogDto>
 @{
     ViewData["Title"] = "Blogs";
-      Layout = "_BackendLayout";
+    Layout = "_BackendLayout";
 }
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -29,6 +29,7 @@
                                     <th>Description</th>
                                     <th>Tags</th>
                                     <th>Shown in Menu</th>
+                                    <th>Rating</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -37,44 +38,49 @@
                                     int sn = 1;
                                     foreach (var blog in Model)
                                     {
-                                        <tr class="gradeX">
-                                            <td>
-                                                @sn
-                                                <input type="hidden" class="gallery-id" value="@blog.Id" />
-                                            </td>
-                                           
-                                            <td class="center">@blog.Title</td>
-                                            <td class="center">@blog.Slug</td>
-                                            <td class="center" style="width:350px;">@blog.ShortDescription</td>
-                                            <td class="center">@string.Join(",",blog.TagNames)</td>
-                                           <td>
-                                            @{ 
-                                             if(blog.IsPublished){
-                                                  <span class="badge badge-primary">Published</span>
-                                             }
-                                             else{
-                                                   <span class="badge badge-danger">Unpublished</span>
-                                             }
-                                             }
-                                             </td>
-                                            
-                                           <td class="center">
-                                               <a href="/admin/blog/edit/@blog.Id" class="btn btn-icon waves-effect waves-light btn-primary btn-sm " data-toggle="tooltip" title="Edit Blog"><i class="fa fa-pencil"></i></a>
+                                            <tr class="gradeX">
+                                                <td>
+                                                    @sn
+                                                    <input type="hidden" class="gallery-id" value="@blog.Id" />
+                                                </td>
 
-                                                <a href="/admin/blog/delete/@blog.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm delete" data-toggle="tooltip" title="Delete Blog"><i class="fa fa-trash"></i></a>
-                                                @{
+                                                <td class="center">@blog.Title</td>
+                                                <td class="center">@blog.Slug</td>
+                                                <td class="center" style="width:350px;">@blog.ShortDescription</td>
+                                                <td class="center">@string.Join(",",blog.TagNames)</td>
+                                                <td>
+                                                    @{
                                                     if (blog.IsPublished)
                                                     {
-                                                        <a href="/admin/blog/unpublish/@blog.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm" data-toggle="tooltip" title="Unpublish"><i class="fa fa-thumbs-down"></i></a>
+                                                                <span class="badge badge-primary">Published</span>
                                                     }
                                                     else
                                                     {
-                                                        <a href="/admin/blog/publish/@blog.Id" class="btn btn-icon waves-effect waves-light btn-success btn-sm" data-toggle="tooltip" title="Publish"><i class="fa fa-thumbs-up"></i></a>
+                                                                <span class="badge badge-danger">Unpublished</span>
                                                     }
-                                                }
-                                               
-                                            </td>
-                                        </tr>
+                                                    }
+                                                </td>
+                                                <td>@blog.Rating</td>
+
+                                                <td class="center">
+                                                    <a href="/admin/blog/edit/@blog.Id" class="btn btn-icon waves-effect waves-light btn-primary btn-sm " data-toggle="tooltip" title="Edit Blog"><i class="fa fa-pencil"></i></a>
+
+                                                    <a href="/admin/blog/delete/@blog.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm delete" data-toggle="tooltip" title="Delete Blog"><i class="fa fa-trash"></i></a>
+                                                    @{
+                                                    if (blog.IsPublished)
+                                                    {
+                                                                <a href="/admin/blog/unpublish/@blog.Id" class="btn btn-icon waves-effect waves-light btn-danger btn-sm" data-toggle="tooltip" title="Unpublish"><i class="fa fa-thumbs-down"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                                <a href="/admin/blog/publish/@blog.Id" class="btn btn-icon waves-effect waves-light btn-success btn-sm" data-toggle="tooltip" title="Publish"><i class="fa fa-thumbs-up"></i></a>
+                                                    }
+                                                    }
+
+                                                    <a href="#" class="btn btn-icon waves-effect waves-light btn-primary btn-sm btn-rating" data-toggle="tooltip" title="Give Rating" data-blogid="@blog.Id"><i class="fa fa-star"></i></a>
+
+                                                </td>
+                                            </tr>
                                         sn++;
                                     }
                                 }
@@ -88,3 +94,47 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.btn-rating').click(function () {
+                let blogId = $(this).data('blogid');
+                getRatingView(blogId)
+            })
+
+            $(document).on('click', '.rating-submit-btn', function () {
+                event.preventDefault();
+                var data = $('.rating-form').serialize();
+                $.ajax({
+                    url: "/admin/blog/save-rating",
+                    type: "POST",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                        console.log('response', response);
+                        if (JSON.parse(response).data.success == true) {
+                            window.location.reload();
+                        }
+                        else {
+                            ShowToastMessage("error", response.error);
+                        }
+                    },
+                    error: function () {
+                        ShowToastMessage("error", "Failed to save rating.");
+                    }
+                });
+            });
+
+            async function getRatingView(blogId) {
+                const response = await fetch(`/admin/blog/rating-view?blogId=${blogId}`, {
+                    dataType: 'json'
+                });
+                var jsonData = await response.json();
+                var data = JSON.parse(jsonData).data;
+
+                showModal(data, 'Enter Rating', false);
+            }
+        });
+    </script>
+}
