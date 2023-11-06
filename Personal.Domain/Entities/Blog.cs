@@ -43,6 +43,7 @@ namespace Personal.Domain.Entities
         [Required]
         public bool IsPublished { get; set; } = false;
 
+        public int Rate { get; set; } = 1;
         public bool IsDeleted { get; set; } = false;
 
         [ForeignKey(nameof(CreatedBy))]
